@@ -9,20 +9,27 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int port = 8080;
         ServerSocket serverSocket = new ServerSocket(port);
+        // get local host ip
+        String host = serverSocket.getInetAddress().getHostAddress();
+        System.out.println("Server started on host " + host + " on port " + port);
+        try {
+            while (true){
+                System.out.println("Server started on port " + port);
 
-        System.out.println("Server started on port " + port);
+                Socket socket = serverSocket.accept();
 
-        Socket socket = serverSocket.accept();
+                InputStream input = socket.getInputStream();
 
-        InputStream input = socket.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                String line = reader.readLine();
+                System.out.println("Message from client: " + line);
 
-        String line = reader.readLine();
-        System.out.println("Message from client: " + line);
 
-        serverSocket.close();
-
-        System.out.println("Server stopped");
+                System.out.println("Server stopped");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
