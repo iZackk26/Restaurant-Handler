@@ -33,7 +33,7 @@ public abstract class Person {
         this.name = name;
     }
 
-        public String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -72,4 +72,5 @@ public abstract class Person {
     public void setCellphoneNumber(int cellphoneNumber) {
         this.cellphoneNumber = cellphoneNumber;
     }
+
 }

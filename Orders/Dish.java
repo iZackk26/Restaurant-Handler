@@ -25,7 +25,7 @@ public class Dish {
         this.price = 0;
         this.finished = false;
     }
-    
+
     public void MarkAsFinished() {
     }
 
