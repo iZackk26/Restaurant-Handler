@@ -1,0 +1,106 @@
+@startuml main
+skinparam monochrome reverse
+skinparam linetype ortho
+
+class Order {
+    - number : int
+    - initialTime : LocalTime
+    - totalPrice : int
+    - totalTime : LocalTime
+    - registrationDate : String
+    - status : String
+    + customer : Customer
+    + category : Category
+    + orderHandler : Employee
+    + orderedDishes[] : Dish
+
+    --Methods--
+
+    + calculateTotalPrice() : int
+    + calculateTotalTime() : LocalTime
+    + markAsCompleted() : void
+    + markAsDelivered() : void
+}
+
+class Menu {
+    - category[] : Dish
+
+    --Methods--
+
+    + addDish() : void
+    + removeDish() : void
+}
+
+class Dish {
+    - name : String
+    - description : String
+    - estimatedTime : LocalTime
+    - price : int
+    - finished : boolean
+
+    --Methods--
+
+    + markAsFinished() : void
+} 
+
+
+class EatingIn extends Order {
+    - tableNumber : int
+}
+
+class ToGo extends Order {
+    - pickedUpTime : LocalTime
+    - pickedUpDate : String
+}
+
+class Express extends Order {
+    - deliveryAddress : String
+    - estimatedDeliveryTime : LocalTime
+    - deliveryDriver : DeliveryDriver
+}
+
+class Person {
+    - name : String
+    - gender : String
+    - age : int
+    - id : int
+    - cellphoneNumber : int
+}
+
+class Employee extends Person {
+    - employeeID : int
+    - boss : String
+    - salary : int
+
+    --Methods--
+
+    + takeOrder() : void
+}
+
+class Customer extends Person {
+    - province : String
+    - district : String
+    - addressInformation : String
+}
+
+class DeliveryDriver extends Person {
+    + vehicle : Vehicle
+    
+    --Methods--
+
+    + assignOrder() : void
+}
+
+class Vehicle {
+    - plateNumber : String
+    - type : String
+}
+
+Order "1" --* "1" Customer
+Order "1..+" o-- "+.." Dish
+Order "1" o-- "+.." Employee
+Menu "+.." *-- "1" Dish
+DeliveryDriver "1" *-- "1" Vehicle
+DeliveryDriver "+.." o-- "1" Express
+
+@enduml
