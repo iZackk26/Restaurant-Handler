@@ -1,6 +1,6 @@
 package Person;
 
-public class DeliveryDriver {
+public class DeliveryDriver extends Person{
     public Vehicle vehicle;
 
     // Methods

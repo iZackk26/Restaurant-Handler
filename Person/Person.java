@@ -7,4 +7,6 @@ public class Person {
     private int id;
     private int cellphoneNumber;
 
+    private String password;
+
 }
