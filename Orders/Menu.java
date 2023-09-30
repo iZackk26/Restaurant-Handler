@@ -1,27 +1,34 @@
 package Orders;
-
+import java.util.ArrayList;
 public class Menu {
-    private Dish[] Catalog;
+    private ArrayList<Dish> Catalog;
 
-    public Menu(Dish[] catalog) {
-        Catalog = catalog;
-    }
 
     public Menu() {
-        Catalog = null;
+        Catalog = new ArrayList<Dish>();
     }
 
     // Methods
-    public void AddDish() {
+    public void AddDish(Dish dish) {
+        Catalog.add(dish);
+
+
     }
     public void RemoveDish() {
     }
 
-    public Dish[] getCatalog() {
+    public ArrayList<Dish> getCatalog() {
         return Catalog;
     }
 
-    public void setCatalog(Dish[] catalog) {
+    public void setCatalog(ArrayList<Dish> catalog) {
         Catalog = catalog;
+    }
+    public void printMenu(){
+        for (int i = 0; i < Catalog.size(); i++) {
+            // Print the entire menu with it
+            Dish temp = Catalog.get(i);
+            temp.printDish();
+        }
     }
 }

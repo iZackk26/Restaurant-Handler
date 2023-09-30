@@ -69,4 +69,10 @@ public class Dish {
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
+    public void printDish(){
+        System.out.println("Name: " + name);
+        System.out.println("Description: " + description);
+        System.out.println("Estimated time: " + estimatedTime);
+        System.out.println("Price: " + price);
+    }
 }

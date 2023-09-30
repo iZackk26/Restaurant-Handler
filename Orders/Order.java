@@ -1,12 +1,17 @@
 package Orders;
 
+import Person.Costumer;
+
+import java.util.ArrayList;
+
 public class Order {
     private int orderNumber;
     private String initialTime;
     private int totalPrice;
     private String registrationDate;
     private String status;
-
+    public Costumer costumer;
+    public ArrayList<Dish> orderedDishes;
     public Order(int orderId, String orderDate, String orderTime, String orderStatus) {
         this.orderNumber = orderId;
         this.initialTime = orderTime;
