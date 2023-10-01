@@ -13,12 +13,15 @@ public class Order {
     public Costumer costumer;
     public Employee orderHandler;
     public ArrayList<Dish> orderedDishes;
-    public Order(int orderId, String orderDate, String orderTime, String orderStatus) {
+    public Order(int orderId, String orderDate, String orderTime) {
         this.orderNumber = orderId;
         this.initialTime = orderTime;
         this.totalPrice = 0;
         this.registrationDate = orderDate;
-        this.status = orderStatus;
+        this.status = "Pending";
+        this.orderHandler = null;
+        this.orderedDishes = new ArrayList<Dish>();
+        this.costumer = null;
     }
 
     public Order() {
@@ -93,5 +96,14 @@ public class Order {
         for (Dish dish : orderedDishes) {
             System.out.println(dish);
         }
+    }
+
+    public void getOrderedDishes() {
+        for (Dish dish : orderedDishes) {
+            System.out.println(dish);
+        }
+    }
+    public void setOrderedDishes(ArrayList<Dish> orderedDishes) {
+        this.orderedDishes = orderedDishes;
     }
 }
