@@ -4,7 +4,7 @@ import Person.Costumer;
 import Person.Employee;
 import java.util.ArrayList;
 
-public class Order {
+public abstract class Order {
     private int orderNumber;
     private String initialTime;
     private int totalPrice;
