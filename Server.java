@@ -12,6 +12,8 @@ import java.util.Scanner;
 public class Server {
     static ArrayList<Employee> employees = new ArrayList<Employee>();
     static ArrayList<Order> orders = new ArrayList<Order>();
+    static ArrayList<ToGo> readyToGoOrders = new ArrayList<ToGo>();
+    static ArrayList<Express> readyExpressOrders = new ArrayList<Express>();
     static ArrayList<Order> history = new ArrayList<Order>();
 
     public static void checkOrdersStatus() {
@@ -90,6 +92,7 @@ public class Server {
                     if (dish.getName().equals(dishName)) {
                         dish.setFinished(true);
                         System.out.println("Dish marked as completed");
+                        analyzeOrder(order);
                         return;
                     }
                 }
@@ -98,8 +101,69 @@ public class Server {
         }
     }
 
+    public static void analyzeOrder(Order order) {
+        for (Dish dish : order.orderedDishes) {
+            if (!dish.isFinished()) {
+                return;
+            }
+        }
+        if (order instanceof EatingIn) {
+            System.out.println("The order is ready to serve");
+            orders.remove(order);
+            history.add(order);
+            return;
+        }
+        else if (order instanceof ToGo) {
+            System.out.println("The order is ready to pick up, wait for the customer");
+            orders.remove(order);
+            readyToGoOrders.add((ToGo) order);
+            return;
+        }
+        else {
+            System.out.println("The order is ready to deliver, wait for the driver");
+            orders.remove(order);
+            readyExpressOrders.add((Express) order);
+            return;
+        }
+    }
+
+    public static void employeeServerMenu() {
+        System.out.println("1. Check pending orders status");
+        System.out.println("2. Check waiting to pick up orders status");
+        System.out.println("3. Assign order handler");
+        System.out.println("4. Manage orders");
+        System.out.println("5. Exit");
+
+        Scanner scanner = new Scanner(System.in);
+        int option = scanner.nextInt();
+        scanner.nextLine();
+        switch (option) {
+            case 1:
+                checkOrdersStatus();
+                break;
+            case 2:
+                System.out.println("Those are the orders waiting to pick up: ");
+                for (ToGo order : readyToGoOrders) {
+                    System.out.println(order);
+                }
+                break;
+            case 3:
+                assignOrderHandler();
+                break;
+            case 4:
+                manageOrders();
+                break;
+            case 5:
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid option");
+                break;
+        }
+    }
+
     public static void main (String[] args) {
-        EatingIn order = new EatingIn(1, "9/30/2021", "12:00", 1);
+        ToGo order = new ToGo(1, "9/30/2021", "12:00");
         Dish dish = new Dish("Pizza", "Pepperoni", "30 minutes", 10000, false);
         Dish secondDish = new Dish("Hamburger", "Cheeseburger", "20 minutes", 8000, false);
         ArrayList<Dish> dishes = new ArrayList<Dish>();
@@ -109,9 +173,9 @@ public class Server {
         dishes.add(secondDish);
         order.setOrderedDishes(dishes);
         orders.add(order);
-        checkOrdersStatus();
-        assignOrderHandler();
-        checkOrdersStatus();
-        manageOrders();
+
+        while (true) {
+            employeeServerMenu();
+        }
     }
 }
