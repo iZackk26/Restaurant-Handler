@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Server {
@@ -20,7 +21,7 @@ public class Server {
         System.out.println("Those are the eating in orders: ");
         for (Order order : orders) {
             if (order instanceof EatingIn) {
-                System.out.println(order.getOrderNumber() + "\n" + order.getOrderHandler());
+                System.out.println(order + "\n");
             }
         }
         System.out.println();
@@ -40,23 +41,31 @@ public class Server {
     }
 
     public static void assignOrderHandler() {
-        System.out.println("Enter your employee ID: ");
-        Scanner scanner = new Scanner(System.in);
-        int id = scanner.nextInt();
-        for (Employee employee : employees) {
-            if (employee.getEmployeeId() == id) {
-                System.out.println("Enter the order number: ");
-                int orderId = scanner.nextInt();
-                for (Order order : orders) {
-                    if (order.getOrderNumber() == orderId) {
-                        order.setOrderHandler(employee);
-                        System.out.println("Order assigned");
-                        return;
+        try {
+            System.out.println("Enter your employee ID: ");
+            Scanner scanner = new Scanner(System.in);
+            int id = scanner.nextInt();
+            boolean employeeFound = false;
+            for (Employee employee : employees) {
+                if (employee.getEmployeeId() == id) {
+                    System.out.println("Enter the order number: ");
+                    int orderId = scanner.nextInt();
+                    for (Order order : orders) {
+                        if (order.getOrderNumber() == orderId) {
+                            order.setOrderHandler(employee);
+                            System.out.println("Order assigned");
+                            return;
+                        }
                     }
+                    System.out.println("Invalid order number");
+                    return;
                 }
-                System.out.println("Invalid order number");
             }
-            System.out.println("Invalid employee ID");
+            if (!employeeFound) {
+                System.out.println("Invalid employee ID");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
         }
     }
 
@@ -73,33 +82,43 @@ public class Server {
     }
 
     public static void manageOrders() {
-        System.out.println("Enter your employee ID: ");
-        Scanner scanner = new Scanner(System.in);
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        ArrayList<Order> handlerOrders = showHandlerOrders(id);
-        System.out.println("Enter the order number: ");
-        int orderNumber = scanner.nextInt();
-        scanner.nextLine();
-        for (Order order : handlerOrders) {
-            if (order.getOrderNumber() == orderNumber) {
-                System.out.println("Those are the dishes of the order: ");
-                order.showDishes();
-                System.out.println();
-                System.out.println("Enter the dish name you want to mark as completed: ");
-                String dishName = scanner.nextLine();
-                for (Dish dish : order.orderedDishes) {
-                    if (dish.getName().equals(dishName)) {
-                        dish.setFinished(true);
-                        System.out.println("Dish marked as completed");
-                        analyzeOrder(order);
-                        return;
+        try {
+            System.out.println("Enter your employee ID: ");
+            Scanner scanner = new Scanner(System.in);
+            int id = scanner.nextInt();
+            scanner.nextLine();
+            ArrayList<Order> handlerOrders = showHandlerOrders(id);
+            System.out.println("Enter the order number: ");
+            int orderNumber = scanner.nextInt();
+            scanner.nextLine();
+            boolean orderFound = false;
+            for (Order order : handlerOrders) {
+                if (order.getOrderNumber() == orderNumber) {
+                    System.out.println("These are the dishes of the order: ");
+                    order.showDishes();
+                    System.out.println();
+                    System.out.println("Enter the dish name you want to mark as completed: ");
+                    String dishName = scanner.nextLine();
+                    for (Dish dish : order.getOrderedDishes()) {
+                        if (dish.getName().equals(dishName)) {
+                            dish.setFinished(true);
+                            System.out.println("Dish marked as completed");
+                            analyzeOrder(order);
+                            return;
+                        }
                     }
+                    System.out.println("Invalid dish name");
+                    return;
                 }
             }
-            System.out.println("Invalid order number");
+            if (!orderFound) {
+                System.out.println("Invalid order number");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
         }
     }
+
 
     public static void analyzeOrder(Order order) {
         for (Dish dish : order.orderedDishes) {
