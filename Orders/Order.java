@@ -106,4 +106,16 @@ public abstract class Order {
     public void setOrderedDishes(ArrayList<Dish> orderedDishes) {
         this.orderedDishes = orderedDishes;
     }
+
+    public void ToString() {
+        System.out.println("Order number: " + orderNumber);
+        System.out.println("Order date: " + registrationDate);
+        System.out.println("Order time: " + initialTime);
+        System.out.println("Order status: " + status);
+        System.out.println("Order handler: " + orderHandler);
+        System.out.println("Ordered dishes: ");
+        for (Dish dish : orderedDishes) {
+            System.out.println(dish);
+        }
+    }
 }
