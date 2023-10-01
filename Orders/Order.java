@@ -1,7 +1,7 @@
 package Orders;
 
 import Person.Costumer;
-
+import Person.Employee;
 import java.util.ArrayList;
 
 public class Order {
@@ -11,6 +11,7 @@ public class Order {
     private String registrationDate;
     private String status;
     public Costumer costumer;
+    public Employee orderHandler;
     public ArrayList<Dish> orderedDishes;
     public Order(int orderId, String orderDate, String orderTime, String orderStatus) {
         this.orderNumber = orderId;
@@ -78,5 +79,19 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Employee getOrderHandler() {
+        return orderHandler;
+    }
+
+    public void setOrderHandler(Employee orderHandler) {
+        this.orderHandler = orderHandler;
+    }
+
+    public void showDishes() {
+        for (Dish dish : orderedDishes) {
+            System.out.println(dish);
+        }
     }
 }
