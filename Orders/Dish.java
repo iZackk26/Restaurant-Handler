@@ -69,10 +69,16 @@ public class Dish {
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
-    public void printDish(){
+
+    public void ToString() {
         System.out.println("Name: " + name);
         System.out.println("Description: " + description);
         System.out.println("Estimated time: " + estimatedTime);
         System.out.println("Price: " + price);
+        if (finished) {
+            System.out.println("Status: in progress");
+        } else {
+            System.out.println("Status: completed");
+        }
     }
 }
