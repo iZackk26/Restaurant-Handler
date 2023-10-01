@@ -5,11 +5,11 @@ import Person.Employee;
 import java.util.ArrayList;
 
 public abstract class Order {
-    private int orderNumber;
-    private String initialTime;
-    private int totalPrice;
-    private String registrationDate;
-    private String status;
+    protected int orderNumber;
+    protected String initialTime;
+    protected int totalPrice;
+    protected String registrationDate;
+    protected String status;
     public Costumer costumer;
     public Employee orderHandler;
     public ArrayList<Dish> orderedDishes;

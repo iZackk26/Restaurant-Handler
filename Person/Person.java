@@ -1,12 +1,12 @@
 package Person;
 
 public abstract class Person {
-    private String name;
-    private String lastName;
-    private String gender;
-    private int age;
-    private int id;
-    private int cellphoneNumber;
+    protected String name;
+    protected String lastName;
+    protected String gender;
+    protected int age;
+    protected int id;
+    protected int cellphoneNumber;
 
     public Person(String s, String name, String gender, int age, int id, int cellphoneNumber) {
         this.name = name;
