@@ -6,8 +6,8 @@ public class Express extends Order{
     private String deliveryAddress;
     private String estimatedDeliveryTime;
 
-    public Express(int orderId, String orderDate, String orderTime, String orderStatus, String deliveryAddress, String estimatedDeliveryTime) {
-        super(orderId, orderDate, orderTime, orderStatus);
+    public Express(int orderId, String orderDate, String orderTime, String deliveryAddress, String estimatedDeliveryTime) {
+        super(orderId, orderDate, orderTime);
         this.deliveryAddress = deliveryAddress;
         this.estimatedDeliveryTime = estimatedDeliveryTime;
     }

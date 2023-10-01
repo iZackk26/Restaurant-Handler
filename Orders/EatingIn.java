@@ -5,8 +5,8 @@ public class EatingIn extends Order{
 
     // Methods
 
-    public EatingIn(int orderId, String orderDate, String orderTime, String orderStatus, int tableNumber) {
-        super(orderId, orderDate, orderTime, orderStatus);
+    public EatingIn(int orderId, String orderDate, String orderTime, int tableNumber) {
+        super(orderId, orderDate, orderTime);
         this.tableNumber = tableNumber;
     }
 
