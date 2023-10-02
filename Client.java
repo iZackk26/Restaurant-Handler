@@ -1,70 +1,180 @@
-import Orders.Dish;
-import Orders.Menu;
+import Orders.*;
 import Person.Costumer;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Random;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.awt.Desktop;
+import java.io.File;
 
 public class Client {
-    static ArrayList<Costumer> costumerList = new ArrayList<Costumer>();
+    static ArrayList<Costumer> costumerList = new ArrayList<>();
     static Costumer currentCostumer = null;
     static Menu healthyFoods = new Menu();
     static Menu mainDishes = new Menu();
     static Menu fastFood = new Menu();
     static Menu drinks = new Menu();
     static Menu desserts = new Menu();
-    public static void main(String[] args) {
-        setMenu();
-        Costumer isaac = new Costumer("iZack", "Ramirez","Male", 18, 1, 88288680, "Alajuela", "San Ramon", "Las lomas, 50 metros sur de la central de taxis", "123");
-        costumerList.add(isaac);
-        System.out.println("Welcome to Chakalito's Restaurant");
-        System.out.println("1. Register User");
-        System.out.println("2. Login");
-        System.out.println("3. Exit");
-        Scanner scanner = new Scanner(System.in);
-        int option = scanner.nextInt();
-        switch (option){
-            case 1:
-                registerUser();
-                break;
-            case 2:
-                if (login()){
-                    menu();
-                }
-                break;
-            case 3:
-                System.out.println("Exit");
-                break;
-            default:
-                System.out.println("Invalid option");
-                break;
+    static ArrayList<Integer> tableNumbers = new ArrayList<>();
+
+    public static void setMenu(){
+        // Healthy Foods
+        Dish salad = new Dish("green salad", "Salad de with lettuce, tomatoes, and cucumber", "10 minutes", 2850, false);
+        Dish chickenSalad = new Dish("chicken salad", "Salad de with lettuce, tomatoes, cucumber, and chicken", "15 minutes", 4000, false);
+        Dish grilledSalmon = new Dish("grilled salmon", "Salmon grilled with vegetables", "20 minutes", 10000, false);
+        Dish bakedChicken = new Dish("baked chicken", "Chicken baked with vegetables", "25 minutes", 6500, false);
+        Dish grilledFishTacos = new Dish("grilled fish tacos", "Fish tacos grilled with salad", "30 minutes", 7000, false);
+        Dish spinachSalad = new Dish("spinach salad", "Salad de with spinach, tomatoes, and cucumber", "10 minutes", 3250, false);
+
+        // Add dishes to the healthy foods menu
+        healthyFoods.AddDish(salad);
+        healthyFoods.AddDish(chickenSalad);
+        healthyFoods.AddDish(grilledSalmon);
+        healthyFoods.AddDish(bakedChicken);
+        healthyFoods.AddDish(grilledFishTacos);
+        healthyFoods.AddDish(spinachSalad);
+
+        // Main dishes
+        Dish chickenFingers = new Dish("chicken fingers", "Chicken fingers with french fries", "10 minutes", 4000, false);
+        Dish grilledSalmonWithDilliSauce = new Dish("grilled salmon", "Freshly grilled salmon served with a creamy dill sauce, accompanied by steamed asparagus and garlic mashed potatoes","25 minutes", 8000, false );
+        Dish beefFilletWithMushroomSauce = new Dish("beef fillet", "Beef fillet served with a mushroom sauce, accompanied by steamed asparagus and garlic mashed potatoes", "30 minutes", 9000, false);
+        Dish roastChickenWithFreshHerbs = new Dish("roast chicken", "Roast chicken served with fresh herbs, accompanied by steamed asparagus and garlic mashed potatoes", "30 minutes", 7500, false);
+
+        // Add dishes to the main dishes menu
+        mainDishes.AddDish(chickenFingers);
+        mainDishes.AddDish(grilledSalmonWithDilliSauce);
+        mainDishes.AddDish(beefFilletWithMushroomSauce);
+        mainDishes.AddDish(roastChickenWithFreshHerbs);
+
+        // Fast Food
+        Dish hamburger = new Dish("hamburger", "Hamburger with french fries", "10 minutes", 3000, false);
+        Dish hotDog = new Dish("hot Dog", "Hot dog with french fries", "10 minutes", 2500, false);
+        Dish pizza = new Dish("pizza", "Pizza with french fries", "10 minutes", 3500, false);
+        Dish chickenNuggets = new Dish("chicken nuggets", "Chicken nuggets with french fries", "10 minutes", 3000, false);
+        Dish frenchFries = new Dish("french fries", "French fries", "10 minutes", 1500, false);
+        Dish chickenWings = new Dish("chicken wings", "Chicken wings with french fries", "10 minutes", 3000, false);
+
+        // Add dishes to the fast food menu
+        fastFood.AddDish(hamburger);
+        fastFood.AddDish(hotDog);
+        fastFood.AddDish(pizza);
+        fastFood.AddDish(chickenNuggets);
+        fastFood.AddDish(frenchFries);
+        fastFood.AddDish(chickenWings);
+
+        // Drinks
+        Dish water = new Dish("water", "Water", "5 minutes", 500, false);
+        Dish soda = new Dish("soda", "Soda", "5 minutes", 1000, false);
+        Dish juice = new Dish("juice", "Juice", "5 minutes", 1500, false);
+        Dish beer = new Dish("beer", "Beer", "5 minutes", 2000, false);
+
+        // Add dishes to the drinks menu
+        drinks.AddDish(water);
+        drinks.AddDish(soda);
+        drinks.AddDish(juice);
+        drinks.AddDish(beer);
+
+        // Desserts
+        Dish iceCream = new Dish("ice cream", "Ice cream", "5 minutes", 2000, false);
+        Dish cake = new Dish("cake", "Cake", "5 minutes", 2000, false);
+        Dish brownie = new Dish("brownie", "Brownie", "5 minutes", 2000, false);
+        Dish pie = new Dish("pie", "Pie", "5 minutes", 2000, false);
+        Dish pudding = new Dish("pudding", "Pudding", "5 minutes", 2000, false);
+        Dish cookies = new Dish("cookies", "Cookies", "5 minutes", 750, false);
+
+        // Add dishes to the desserts menu
+        desserts.AddDish(iceCream);
+        desserts.AddDish(cake);
+        desserts.AddDish(brownie);
+        desserts.AddDish(pie);
+        desserts.AddDish(pudding);
+        desserts.AddDish(cookies);
+    }
+    public static void setTables(){
+        for (int i = 1; i <= 40; i++) {
+            tableNumbers.add(i);
         }
     }
+    public static boolean checkTable(int tableNumber){
+        for (Integer number : tableNumbers) {
+            if (number == tableNumber) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void printTables(){
+        for (int i = 0; i < tableNumbers.size(); i++) {
+            if (i % 5 == 0)
+                System.out.println();
+            System.out.print(tableNumbers.get(i) + " ");
+        }
+        System.out.println();
+    }
 
+    public static void openMenu(){
+        try{
+            String path = "Diagram/menu.pdf";
+            File file = new File(path);
+            if (file.exists()){
+                Desktop.getDesktop().open(file);
+            }else{
+                System.out.println("File doesn't exist");
+            }
+        }catch (Exception e){
+            System.out.println("Error");
+        }
+    }
+    public static boolean checkRepeatedId(int id){
+        for (Costumer costumer: costumerList) {
+            if (costumer.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
     public static void registerUser(){
+        int id;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your name");
+        System.out.print(">>> ");
         String name = scanner.nextLine();
         System.out.println("Enter your last name");
+        System.out.print(">>> ");
         String lastName = scanner.nextLine();
         System.out.println("Enter your gender");
+        System.out.print(">>> ");
         String gender = scanner.nextLine();
         System.out.println("Enter your age");
+        System.out.print(">>> ");
         int age = scanner.nextInt();
-        scanner.nextLine();
         System.out.println("Enter your id");
-        int id = scanner.nextInt();
+        System.out.print(">>> ");
+        scanner.nextLine();
+        id = scanner.nextInt();
+        if (checkRepeatedId(id)){
+            System.out.println("This id is already registered");
+            return;
+        }
         scanner.nextLine();
         System.out.println("Enter your cellphone number");
+        System.out.print(">>> ");
         int cellphoneNumber = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Enter your province");
+        System.out.print(">>> ");
         String province = scanner.nextLine();
         System.out.println("Enter your district");
+        System.out.print(">>> ");
         String district = scanner.nextLine();
         System.out.println("Enter your address information");
+        System.out.print(">>> ");
         String addressInformation = scanner.nextLine();
         System.out.println("Enter your password");
+        System.out.print(">>> ");
         String password = scanner.nextLine();
         Costumer costumer = new Costumer(name, lastName, gender, age, id, cellphoneNumber, province, district, addressInformation, password);
         costumerList.add(costumer);
@@ -74,9 +184,17 @@ public class Client {
     public static boolean login(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your id");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        int id = 0;
+        try{
+            System.out.print(">>> ");
+            id = scanner.nextInt();
+            scanner.nextLine();
+        }
+        catch (InputMismatchException e){
+            System.out.println("Invalid option");
+        }
         System.out.println("Enter your password");
+        System.out.print(">>> ");
         String password = scanner.nextLine();
         for (Costumer costumer: costumerList) {
             if (costumer.getId() == id && costumer.getPassword().equals(password)){
@@ -91,109 +209,235 @@ public class Client {
         return false;
     }
 
-    public static void menu(){
-        int repeatedTimes = 0;
-        System.out.println("1. Order");
-        if (repeatedTimes > 0) {
-            System.out.println("2. See order");
-        }
-        System.out.println("3. Exit");
+    public static ArrayList<Dish> order() {
+        ArrayList<Dish> order = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        int option = scanner.nextInt();
-        scanner.nextLine();
-        switch (option){
-            case 1:
-                //order();
-                break;
-            case 2:
-                //seeOrder();
-                break;
-            case 3:
-                System.out.println("Exit");
-                break;
-            default:
+        int option = 0;
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("1. Healthy foods");
+            System.out.println("2. Main dishes");
+            System.out.println("3. Fast food");
+            System.out.println("4. Drinks");
+            System.out.println("5. Desserts");
+            System.out.println("6. Order details");
+            System.out.println("7. Exit");
+            try {
+                System.out.print(">>> ");
+                option = scanner.nextInt();
+                if (option < 1 || option > 7) {
+                    System.out.println("Invalid option");
+                    continue;
+                }
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
                 System.out.println("Invalid option");
-                break;
+            }
+            switch (option) {
+                case 1 -> {
+                    System.out.println("Healthy foods");
+                    System.out.println("Enter the name of the dish");
+                    System.out.print(">>> ");
+                    String name = scanner.nextLine();
+                    Dish dish = healthyFoods.searchDish(name);
+                    if (dish != null) {
+                        order.add(dish);
+                        System.out.println("Dish added");
+                    } else {
+                        System.out.println("Dish not found");
+                    }
+                }
+                case 2 -> {
+                    System.out.println("Main dishes");
+                    System.out.println("Enter the name of the dish");
+                    System.out.print(">>> ");
+                    String name = scanner.nextLine();
+                    Dish dish = mainDishes.searchDish(name);
+                    if (dish != null) {
+                        order.add(dish);
+                        System.out.println("Dish added");
+                    } else {
+                        System.out.println("Dish not found");
+                    }
+                }
+                case 3 -> {
+                    System.out.println("Fast food");
+                    System.out.println("Enter the name of the dish");
+                    System.out.print(">>> ");
+                    String name = scanner.nextLine();
+                    Dish dish = fastFood.searchDish(name);
+                    if (dish != null) {
+                        order.add(dish);
+                        System.out.println("Dish added");
+                    } else {
+                        System.out.println("Dish not found");
+                    }
+                }
+                case 4 -> {
+                    System.out.println("Drinks");
+                    System.out.println("Enter the name of the dish");
+                    System.out.print(">>> ");
+                    String name = scanner.nextLine();
+                    Dish dish = drinks.searchDish(name);
+                    if (dish != null) {
+                        order.add(dish);
+                        System.out.println("Dish added");
+                    } else {
+                        System.out.println("Dish not found");
+                    }
+                }
+                case 5 -> {
+                    System.out.println("Desserts");
+                    System.out.println("Enter the name of the dish");
+                    System.out.print(">>> ");
+                    String name = scanner.nextLine();
+                    Dish dish = desserts.searchDish(name);
+                    if (dish != null) {
+                        order.add(dish);
+                        System.out.println("Dish added");
+                    } else {
+                        System.out.println("Dish not found");
+                    }
+                }
+                case 6 -> {
+                    System.out.println("Order details");
+                    for (Dish dish : order) {
+                        System.out.println(dish);
+                    }
+                    System.out.println("Total price: " + calculateTotalPrice(order));
+                }
+                case 7 -> {
+                    exit = true;
+                    System.out.println("Exit");
+                }
+                default -> System.out.println("Invalid option");
+            }
+        }
+        return order;
+    }
+    public static void orderMenu(){
+        openMenu();
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        int orderNumber = random.nextInt(1000);
+        LocalTime time = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String timeFormatted = time.format(formatter);
+        ArrayList<Dish> orderList = new ArrayList<>();
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("1. Order");
+            System.out.println("2. Complete order");
+            System.out.println("3. Exit");
+            int option = 0;
+            try{
+                System.out.print(">>> ");
+                option = scanner.nextInt();
+                scanner.nextLine();
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid option");
+            }
+            switch (option) {
+                case 1 -> orderList = order();
+                case 2 -> {
+                    // Eating in
+                    int totalPrice = calculateTotalPrice(orderList);
+                    System.out.println("Does your order is for delivery, eating in or take out?");
+                    System.out.println("1. Delivery");
+                    System.out.println("2. Eating in");
+                    System.out.println("3. Take out");
+                    int option2 = 0;
+                    try{
+                        System.out.print(">>> ");
+                        option2 = scanner.nextInt();
+                        scanner.nextLine();
+                    }
+                    catch (InputMismatchException e){
+                        System.out.println("Invalid option");
+                    }
+                    switch (option2) {
+                        case 1 -> {
+                            System.out.println("Enter your address");
+                            String address = scanner.nextLine();
+                            Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
+                            express.setOrderList(orderList);
+                            System.out.println("Order completed");
+                        }
+                        case 2 -> {
+                            System.out.println("Tables:");
+                            printTables();
+                            System.out.println("Enter the table number");
+                            int tableNumber = scanner.nextInt();
+                            scanner.nextLine();
+                            if (checkTable(tableNumber)) {
+                                EatingIn eatingIn = new EatingIn(orderNumber, timeFormatted, totalPrice, tableNumber, currentCostumer);
+                                eatingIn.setOrderList(orderList);
+                                System.out.println("Order completed");
+                            } else {
+                                System.out.println("Invalid table number");
+                            }
+                        }
+                        case 3 -> {
+                            ToGo toGo = new ToGo(orderNumber, timeFormatted, totalPrice, currentCostumer);
+                            toGo.setOrderList(orderList);
+                            System.out.println("Order completed");
+                        }
+                        default -> System.out.println("Invalid option");
+                    }
+                }
+                case 3 -> {
+                    exit = true;
+                    System.out.println("Exit");
+                }
+            }
+
         }
     }
 
-    public static void setMenu(){
-        // Healthy Foods
-        Dish salad = new Dish("Green Salad", "Salad de with lettuce, tomatoes, and cucumber", "10 minutes", 2850, false);
-        Dish chickenSalad = new Dish("Chicken Salad", "Salad de with lettuce, tomatoes, cucumber, and chicken", "15 minutes", 4000, false);
-        Dish grilledSalmon = new Dish("Grilled Salmon", "Salmon grilled with vegetables", "20 minutes", 10000, false);
-        Dish bakedChicken = new Dish("Baked Chicken", "Chicken baked with vegetables", "25 minutes", 6500, false);
-        Dish grilledFishTacos = new Dish("Grilled Fish Tacos", "Fish tacos grilled with salad", "30 minutes", 7000, false);
-        Dish spinachSalad = new Dish("Spinach Salad", "Salad de with spinach, tomatoes, and cucumber", "10 minutes", 3250, false);
-
-        // Add dishes to the healthy foods menu
-        healthyFoods.AddDish(salad);
-        healthyFoods.AddDish(chickenSalad);
-        healthyFoods.AddDish(grilledSalmon);
-        healthyFoods.AddDish(bakedChicken);
-        healthyFoods.AddDish(grilledFishTacos);
-        healthyFoods.AddDish(spinachSalad);
-
-        // Main dishes
-        Dish chickenFingers = new Dish("Chicken Fingers", "Chicken fingers with french fries", "10 minutos", 4000, false);
-        Dish grilledSalmonWithDilliSauce = new Dish("Grilled Salmon with Dill Sauce", "Freshly grilled salmon served with a creamy dill sauce, accompanied by steamed asparagus and garlic mashed potatoes","25 minutes", 8000, false );
-        Dish beefFilletWithMushroomSauce = new Dish("Beef Fillet with Mushroom Sauce", "Beef fillet served with a mushroom sauce, accompanied by steamed asparagus and garlic mashed potatoes", "30 minutes", 9000, false);
-        Dish roastChickenWithFreshHerbs = new Dish("Roast Chicken with Fresh Herbs", "Roast chicken served with fresh herbs, accompanied by steamed asparagus and garlic mashed potatoes", "30 minutes", 7500, false);
-
-        // Add dishes to the main dishes menu
-        mainDishes.AddDish(chickenFingers);
-        mainDishes.AddDish(grilledSalmonWithDilliSauce);
-        mainDishes.AddDish(beefFilletWithMushroomSauce);
-        mainDishes.AddDish(roastChickenWithFreshHerbs);
-
-        // Fast Food
-        Dish hamburger = new Dish("Hamburger", "Hamburger with french fries", "10 minutes", 3000, false);
-        Dish hotDog = new Dish("Hot Dog", "Hot dog with french fries", "10 minutes", 2500, false);
-        Dish pizza = new Dish("Pizza", "Pizza with french fries", "10 minutes", 3500, false);
-        Dish chickenNuggets = new Dish("Chicken Nuggets", "Chicken nuggets with french fries", "10 minutes", 3000, false);
-        Dish frenchFries = new Dish("French Fries", "French fries", "10 minutes", 1500, false);
-        Dish chickenWings = new Dish("Chicken Wings", "Chicken wings with french fries", "10 minutes", 3000, false);
-
-        // Add dishes to the fast food menu
-        fastFood.AddDish(hamburger);
-        fastFood.AddDish(hotDog);
-        fastFood.AddDish(pizza);
-        fastFood.AddDish(chickenNuggets);
-        fastFood.AddDish(frenchFries);
-        fastFood.AddDish(chickenWings);
-
-        // Drinks
-        Dish water = new Dish("Water", "Water", "5 minutes", 500, false);
-        Dish soda = new Dish("Soda", "Soda", "5 minutes", 1000, false);
-        Dish juice = new Dish("Juice", "Juice", "5 minutes", 1500, false);
-        Dish beer = new Dish("Beer", "Beer", "5 minutes", 2000, false);
-
-        // Add dishes to the drinks menu
-        drinks.AddDish(water);
-        drinks.AddDish(soda);
-        drinks.AddDish(juice);
-        drinks.AddDish(beer);
-
-        // Desserts
-        Dish iceCream = new Dish("Ice Cream", "Ice cream", "5 minutes", 2000, false);
-        Dish cake = new Dish("Cake", "Cake", "5 minutes", 2000, false);
-        Dish brownie = new Dish("Brownie", "Brownie", "5 minutes", 2000, false);
-        Dish pie = new Dish("Pie", "Pie", "5 minutes", 2000, false);
-        Dish pudding = new Dish("Pudding", "Pudding", "5 minutes", 2000, false);
-        Dish cookies = new Dish("Cookies", "Cookies", "5 minutes", 750, false);
-
-        // Add dishes to the desserts menu
-        desserts.AddDish(iceCream);
-        desserts.AddDish(cake);
-        desserts.AddDish(brownie);
-        desserts.AddDish(pie);
-        desserts.AddDish(pudding);
-        desserts.AddDish(cookies);
+    public static int calculateTotalPrice(ArrayList<Dish> order){
+        int totalPrice = 0;
+        for (Dish dish : order) {
+            totalPrice += dish.getPrice();
+        }
+        return totalPrice;
     }
 
-    public static void order(){
-
+    public static void main(String[] args) {
+        setMenu();
+        setTables();
+        boolean exit = false;
+        Costumer isaac = new Costumer("iZack", "Ramirez","Male", 18, 1, 88288680, "Alajuela", "San Ramon", "Las Lomas, 50 metros sur de la central de taxis", "123");
+        costumerList.add(isaac);
+        System.out.println("Welcome to Chakalito's Restaurant");
+        while (!exit) {
+            System.out.println("1. Register User");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
+            Scanner scanner = new Scanner(System.in);
+            int option = 0;
+            try{
+                System.out.print(">>> ");
+                option = scanner.nextInt();
+                scanner.nextLine();
+            }
+            catch (InputMismatchException e){
+                System.out.println("Invalid type of data");
+            }
+            switch (option) {
+                case 1 -> registerUser();
+                case 2 -> {
+                    if (login()) {
+                        orderMenu();
+                    }
+                }
+                case 3 -> {
+                    exit = true;
+                    System.out.println("Exit");
+                }
+                default -> System.out.println("Invalid option");
+            }
+        }
     }
-
 
 }

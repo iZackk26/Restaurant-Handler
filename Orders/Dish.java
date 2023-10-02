@@ -70,6 +70,7 @@ public class Dish {
         this.finished = finished;
     }
 
+<<<<<<< HEAD
     public void ToString() {
         System.out.println("Name: " + name);
         System.out.println("Description: " + description);
@@ -80,5 +81,13 @@ public class Dish {
         } else {
             System.out.println("Status: completed");
         }
+=======
+    @Override
+    public String toString() {
+        return "Dish: " +
+                "Name: '" + name + '\'' +
+                ", EstimatedTime: '" + estimatedTime + '\'' +
+                ", Price: " + price;
+>>>>>>> a0325ff (Finished Menu)
     }
 }

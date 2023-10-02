@@ -99,14 +99,14 @@ public class Server {
                     System.out.println();
                     System.out.println("Enter the dish name you want to mark as completed: ");
                     String dishName = scanner.nextLine();
-                    for (Dish dish : order.getOrderedDishes()) {
-                        if (dish.getName().equals(dishName)) {
-                            dish.setFinished(true);
-                            System.out.println("Dish marked as completed");
-                            analyzeOrder(order);
-                            return;
-                        }
-                    }
+                    //for (Dish dish : order.getOrderedDishes()) {
+                        //if (dish.getName().equals(dishName)) {
+                            //dish.setFinished(true);
+                            //System.out.println("Dish marked as completed");
+                            //analyzeOrder(order);
+                            //return;
+                        //}
+                    //} Check this!
                     System.out.println("Invalid dish name");
                     return;
                 }
@@ -182,19 +182,24 @@ public class Server {
     }
 
     public static void main (String[] args) {
-        ToGo order = new ToGo(1, "9/30/2021", "12:00");
+        //ToGo order = new ToGo(1, "9/30/2021", "12:00");
+        //EatingIn order = new EatingIn(1, "9/30/2021", 15000, 1);
         Dish dish = new Dish("Pizza", "Pepperoni", "30 minutes", 10000, false);
         Dish secondDish = new Dish("Hamburger", "Cheeseburger", "20 minutes", 8000, false);
         ArrayList<Dish> dishes = new ArrayList<Dish>();
-        Employee employee = new Employee(1, "Juan", 200);
-        employees.add(employee);
         dishes.add(dish);
         dishes.add(secondDish);
-        order.setOrderedDishes(dishes);
-        orders.add(order);
+        //order.setOrderedDishes(dishes);
+        //orders.add(order);
 
         while (true) {
             employeeServerMenu();
         }
+        //order.setOrderedDishes(dishes);
+        //orders.add(order);
+        //checkOrdersStatus();
+        //assignOrderHandler();
+        //checkOrdersStatus();
+        //manageOrders();
     }
 }

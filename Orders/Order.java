@@ -13,15 +13,12 @@ public abstract class Order {
     public Costumer costumer;
     public Employee orderHandler;
     public ArrayList<Dish> orderedDishes;
-    public Order(int orderId, String orderDate, String orderTime) {
+    public Order(int orderId, String initialTime, int totalPrice, Costumer costumer) {
         this.orderNumber = orderId;
-        this.initialTime = orderTime;
-        this.totalPrice = 0;
-        this.registrationDate = orderDate;
-        this.status = "Pending";
-        this.orderHandler = null;
-        this.orderedDishes = new ArrayList<Dish>();
-        this.costumer = null;
+        this.initialTime = initialTime;
+        this.totalPrice = totalPrice;
+        this.registrationDate = "";
+        this.status = "";
     }
 
     public Order() {

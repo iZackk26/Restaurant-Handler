@@ -1,19 +1,21 @@
 package Person;
 
-public class Employee {
+public class Employee extends Person{
     private int employeeId;
     private String boss;
     private int salary;
 
     //Methods
 
-    public Employee(int employeeId, String boss, int salary) {
+    public Employee(String name, String lastName, String gender, int age, int id, int cellphoneNumber, int employeeId, String boss, int salary) {
+        super(name, lastName, gender, age, id, cellphoneNumber);
         this.employeeId = employeeId;
         this.boss = boss;
         this.salary = salary;
     }
 
     public Employee() {
+        super();
         this.employeeId = 0;
         this.boss = "";
         this.salary = 0;

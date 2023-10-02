@@ -1,15 +1,18 @@
 package Orders;
 
+import Person.Costumer;
 import Person.DeliveryDriver;
+
+import java.util.ArrayList;
 
 public class Express extends Order{
     private String deliveryAddress;
     private String estimatedDeliveryTime;
-
-    public Express(int orderId, String orderDate, String orderTime, String deliveryAddress, String estimatedDeliveryTime) {
-        super(orderId, orderDate, orderTime);
+    private DeliveryDriver deliveryDriver;
+    public Express(int orderNumber, String initialTime, int totalPrice, String deliveryAddress, Costumer costumer) {
+        super(orderNumber, initialTime, totalPrice, costumer);
         this.deliveryAddress = deliveryAddress;
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
+        this.estimatedDeliveryTime = "";
     }
 
     public Express() {
@@ -17,7 +20,6 @@ public class Express extends Order{
         this.deliveryAddress = "";
         this.estimatedDeliveryTime = "";
     }
-    public DeliveryDriver deliveryDriver;
 
     public String getDeliveryAddress() {
         return deliveryAddress;
@@ -34,4 +36,24 @@ public class Express extends Order{
     public void setEstimatedDeliveryTime(String estimatedDeliveryTime) {
         this.estimatedDeliveryTime = estimatedDeliveryTime;
     }
+    public void setDeliveryDriver(DeliveryDriver deliveryDriver) {
+        this.deliveryDriver = deliveryDriver;
+    }
+    public DeliveryDriver getDeliveryDriver() {
+        return deliveryDriver;
+    }
+    public void setCostumer(Costumer costumer) {
+        this.costumer = costumer;
+    }
+    public Costumer getCostumer() {
+        return costumer;
+    }
+    public void setOrderList(ArrayList<Dish> orderList) {
+        this.orderedDishes = orderList;
+    }
+    public ArrayList<Dish> getOrderList() {
+        return orderedDishes;
+    }
+
+
 }
