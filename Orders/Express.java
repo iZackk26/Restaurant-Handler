@@ -3,9 +3,10 @@ package Orders;
 import Person.Costumer;
 import Person.DeliveryDriver;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Express extends Order{
+public class Express extends Order implements Serializable {
     private String deliveryAddress;
     private String estimatedDeliveryTime;
     private DeliveryDriver deliveryDriver;

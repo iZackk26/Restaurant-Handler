@@ -1,9 +1,10 @@
 package Orders;
 import Person.Costumer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ToGo extends Order{
+public class ToGo extends Order implements Serializable {
     private String pickUpTime;
     private String pickUpDate;
 

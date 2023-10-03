@@ -2,9 +2,11 @@ package Orders;
 
 import Person.Costumer;
 import Person.Employee;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Order {
+public abstract class Order implements Serializable {
     protected int orderNumber;
     protected String initialTime;
     protected int totalPrice;
@@ -19,6 +21,7 @@ public abstract class Order {
         this.totalPrice = totalPrice;
         this.registrationDate = "";
         this.status = "";
+        this.orderedDishes = new ArrayList<Dish>();
     }
 
     public Order() {
@@ -101,7 +104,6 @@ public abstract class Order {
     public void setOrderedDishes(ArrayList<Dish> orderedDishes) {
         this.orderedDishes = orderedDishes;
     }
-
     public String toString() {
         String result = "Order number: " + orderNumber + "\n" +
                 "Order date: " + registrationDate + "\n" +
@@ -115,9 +117,8 @@ public abstract class Order {
         }
 
         result += "Ordered dishes: \n";
-
         for (Dish dish : orderedDishes) {
-            result += dish.toString() + "\n";
+            result += dish + "\n";
         }
 
         return result;

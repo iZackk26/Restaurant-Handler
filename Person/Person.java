@@ -8,7 +8,8 @@ public abstract class Person {
     protected int id;
     protected int cellphoneNumber;
 
-    public Person(String name, String lastName, String gender, int age, int id, int cellphoneNumber) {
+
+    public Person(String name, String lastName,String gender, int age, int id, int cellphoneNumber) {
         this.name = name;
         this.gender = gender;
         this.age = age;

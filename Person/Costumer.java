@@ -1,6 +1,8 @@
 package Person;
 
-public class Costumer extends Person{
+import java.io.Serializable;
+
+public class Costumer extends Person implements Serializable {
     private String province;
     private String district;
     private String addressInformation;

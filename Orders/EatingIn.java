@@ -1,9 +1,10 @@
 package Orders;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import Person.Costumer;
 
-public class EatingIn extends Order{
+public class EatingIn extends Order implements Serializable {
     private int tableNumber;
 
     // Methods

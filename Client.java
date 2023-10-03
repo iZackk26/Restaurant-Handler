@@ -9,6 +9,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.*;
+import java.net.*;
 
 public class Client {
     static ArrayList<Costumer> costumerList = new ArrayList<>();
@@ -362,6 +364,7 @@ public class Client {
                             String address = scanner.nextLine();
                             Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
                             express.setOrderList(orderList);
+                            sendOrder(express);
                             System.out.println("Order completed");
                         }
                         case 2 -> {
@@ -373,6 +376,7 @@ public class Client {
                             if (checkTable(tableNumber)) {
                                 EatingIn eatingIn = new EatingIn(orderNumber, timeFormatted, totalPrice, tableNumber, currentCostumer);
                                 eatingIn.setOrderList(orderList);
+                                sendOrder(eatingIn);
                                 System.out.println("Order completed");
                             } else {
                                 System.out.println("Invalid table number");
@@ -381,6 +385,7 @@ public class Client {
                         case 3 -> {
                             ToGo toGo = new ToGo(orderNumber, timeFormatted, totalPrice, currentCostumer);
                             toGo.setOrderList(orderList);
+                            sendOrder(toGo);
                             System.out.println("Order completed");
                         }
                         default -> System.out.println("Invalid option");
@@ -403,7 +408,28 @@ public class Client {
         return totalPrice;
     }
 
+    public static void sendOrder(Order order){
+        try {
+            //Socket socket = new Socket("192.168.1.104", 8080);
+            Socket socket = new Socket("localhost", 8080);
+            //EatingIn order = new EatingIn(1, "12:00", 10000, 1, new Costumer("juan", "perez", "male", 6, 123, 124, "san ramon", "las lomas", "123", "oo"));
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            // Crear y enviar objeto al servidor
+            oos.writeObject(order);
+            System.out.println("Objeto enviado: " + order.getOrderNumber());
+            for (Dish dish : order.getOrderedDishes()) {
+                System.out.println(dish);
+            }
+            oos.close();
+            socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void main(String[] args) {
+        //sendOrder();
         setMenu();
         setTables();
         boolean exit = false;

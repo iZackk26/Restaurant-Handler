@@ -1,16 +1,16 @@
 package Person;
 
-public class Vehicle {
+public class Transportation {
     private String plateNumber;
     private String type;
 
 
-    public Vehicle(String plateNumber, String type){
+    public Transportation(String plateNumber, String type){
         this.plateNumber = plateNumber;
         this.type = type;
     }
 
-    public Vehicle(){
+    public Transportation(){
         this.plateNumber = "";
         this.type = "";
     }
