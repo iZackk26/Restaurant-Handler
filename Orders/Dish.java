@@ -29,11 +29,11 @@ public class Dish {
     public void MarkAsFinished() {
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public  void setName(){
+    public void setName() {
         this.name = name;
     }
 

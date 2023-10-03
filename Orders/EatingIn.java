@@ -1,12 +1,15 @@
 package Orders;
 
+import java.util.ArrayList;
+import Person.Costumer;
+
 public class EatingIn extends Order{
     private int tableNumber;
 
     // Methods
 
-    public EatingIn(int orderId, String orderDate, String orderTime, int tableNumber) {
-        super(orderId, orderDate, orderTime);
+    public EatingIn(int orderId, String orderDate, int totalPrice, int tableNumber, Costumer costumer) {
+        super(orderId, orderDate, totalPrice, costumer);
         this.tableNumber = tableNumber;
     }
 
@@ -23,5 +26,11 @@ public class EatingIn extends Order{
         this.tableNumber = tableNumber;
     }
     public void MarkAsServed() {
+    }
+    public void setOrderList(ArrayList<Dish> orderList) {
+        this.orderedDishes = orderList;
+    }
+    public void setCostumer(Costumer costumer) {
+        this.costumer = costumer;
     }
 }

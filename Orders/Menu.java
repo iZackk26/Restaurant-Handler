@@ -30,4 +30,15 @@ public class Menu {
             Dish temp = Catalog.get(i);
         }
     }
+
+    public Dish searchDish(String name) {
+        for (int i = 0; i < Catalog.size(); i++) {
+            // Print the entire menu with it
+            Dish temp = Catalog.get(i);
+            if (temp.getName().equals(name)) {
+                return temp;
+            }
+        }
+        return null;
+    }
 }

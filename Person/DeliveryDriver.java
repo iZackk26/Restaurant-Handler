@@ -3,8 +3,8 @@ package Person;
 public class DeliveryDriver extends Person{
     public Vehicle vehicle;
 
-    public DeliveryDriver(String name, String gender, int age, int id, int cellphone, Vehicle vehicle){
-        super(name, name, gender, age, id, cellphone);
+    public DeliveryDriver(String name, String lastName, String gender, int age, int id, int cellphone, Vehicle vehicle){
+        super(name, lastName, gender, age, id, cellphone);
         this.vehicle = vehicle;
     }
 

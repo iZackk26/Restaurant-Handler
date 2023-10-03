@@ -1,11 +1,16 @@
 package Orders;
+import Person.Costumer;
+
+import java.util.ArrayList;
 
 public class ToGo extends Order{
     private String pickUpTime;
     private String pickUpDate;
 
-    public ToGo(int orderId, String orderDate, String orderTime) {
-        super(orderId, orderDate, orderTime);
+    public ToGo(int orderId, String orderDate,int totalPrice, Costumer costumer) {
+        super(orderId, orderDate, totalPrice, costumer);
+        this.pickUpTime = "";
+        this.pickUpDate = "";
     }
 
     public ToGo() {
@@ -35,5 +40,11 @@ public class ToGo extends Order{
 
     public void setPickUpDate(String pickUpDate) {
         this.pickUpDate = pickUpDate;
+    }
+    public void setOrderList(ArrayList<Dish> orderList) {
+        this.orderedDishes = orderList;
+    }
+    public ArrayList<Dish> getDishList() {
+        return this.orderedDishes;
     }
 }
