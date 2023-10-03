@@ -98,24 +98,33 @@ public abstract class Order {
         }
     }
 
-    public void getOrderedDishes() {
-        for (Dish dish : orderedDishes) {
-            System.out.println(dish);
-        }
+    public ArrayList<Dish> getOrderedDishes() {
+        return orderedDishes;
     }
     public void setOrderedDishes(ArrayList<Dish> orderedDishes) {
         this.orderedDishes = orderedDishes;
     }
 
-    public void ToString() {
-        System.out.println("Order number: " + orderNumber);
-        System.out.println("Order date: " + registrationDate);
-        System.out.println("Order time: " + initialTime);
-        System.out.println("Order status: " + status);
-        System.out.println("Order handler: " + orderHandler);
-        System.out.println("Ordered dishes: ");
-        for (Dish dish : orderedDishes) {
-            System.out.println(dish);
+    public String toString() {
+        String result = "Order number: " + orderNumber + "\n" +
+                "Order date: " + registrationDate + "\n" +
+                "Order time: " + initialTime + "\n" +
+                "Order status: " + status + "\n";
+
+        if (orderHandler != null) {
+            result += "Order handler: " + orderHandler + "\n";
+        } else {
+            result += "Not affiliated to any handler yet\n";
         }
+
+        result += "Ordered dishes: \n";
+
+        for (Dish dish : orderedDishes) {
+            result += dish.toString() + "\n";
+        }
+
+        return result;
     }
+
+
 }

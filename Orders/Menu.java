@@ -28,7 +28,6 @@ public class Menu {
         for (int i = 0; i < Catalog.size(); i++) {
             // Print the entire menu with it
             Dish temp = Catalog.get(i);
-            temp.printDish();
         }
     }
 }

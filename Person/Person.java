@@ -72,4 +72,7 @@ public abstract class Person {
         this.cellphoneNumber = cellphoneNumber;
     }
 
+    public void ToString() {
+
+    }
 }

@@ -70,15 +70,13 @@ public class Dish {
         this.finished = finished;
     }
 
-    public void ToString() {
-        System.out.println("Name: " + name);
-        System.out.println("Description: " + description);
-        System.out.println("Estimated time: " + estimatedTime);
-        System.out.println("Price: " + price);
-        if (finished) {
-            System.out.println("Status: in progress");
-        } else {
-            System.out.println("Status: completed");
-        }
+    public String toString() {
+        String string = "Name: " + name + "\n" +
+                "Description: " + description + "\n" +
+                "Estimated time: " + estimatedTime + "\n" +
+                "Price: " + price + "\n" +
+                "Finished: " + (finished ? "Yes" : "No");
+
+        return string;
     }
 }

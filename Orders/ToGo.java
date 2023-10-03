@@ -4,10 +4,8 @@ public class ToGo extends Order{
     private String pickUpTime;
     private String pickUpDate;
 
-    public ToGo(int orderId, String orderDate, String orderTime, String pickUpTime, String pickUpDate) {
+    public ToGo(int orderId, String orderDate, String orderTime) {
         super(orderId, orderDate, orderTime);
-        this.pickUpTime = pickUpTime;
-        this.pickUpDate = pickUpDate;
     }
 
     public ToGo() {

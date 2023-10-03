@@ -19,10 +19,6 @@ public class Employee {
         this.salary = 0;
     }
 
-    public void takeOrder(){
-        System.out.println("Taking order");
-    }
-
     public int getEmployeeId() {
         return employeeId;
     }
