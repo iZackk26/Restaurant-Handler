@@ -14,6 +14,7 @@ import java.net.*;
 
 public class Client {
     static ArrayList<Costumer> costumerList = new ArrayList<>();
+    static ArrayList<Dish> modifiedDishes = new ArrayList<>();
     static Costumer currentCostumer = null;
     static Menu healthyFoods = new Menu();
     static Menu mainDishes = new Menu();
@@ -119,7 +120,7 @@ public class Client {
 
     public static void openMenu(){
         try{
-            String path = "Diagram/menu.pdf";
+            String path = "Diagram/Menu.pdf";
             File file = new File(path);
             if (file.exists()){
                 Desktop.getDesktop().open(file);
@@ -202,6 +203,8 @@ public class Client {
             if (costumer.getId() == id && costumer.getPassword().equals(password)){
                 currentCostumer = costumer;
                 System.out.println("Login successful");
+                System.out.println("Welcome " + currentCostumer.getName());
+                System.out.println("\n");
                 return true;
             }
         }
@@ -210,10 +213,22 @@ public class Client {
         }
         return false;
     }
+    public static void checkModifiedMenu(){
+        if (modifiedDishes.size() > 0){
+            System.out.println("-----------------------");
+            System.out.println("Modified dishes");
+            for (Dish dish : modifiedDishes) {
+                System.out.println(dish);
+            }
+            System.out.println("-----------------------");
+            System.out.println("\n");
+        }
+    }
 
     public static ArrayList<Dish> order() {
         ArrayList<Dish> order = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
+        checkModifiedMenu();
         int option = 0;
         boolean exit = false;
         while (!exit) {
@@ -237,10 +252,12 @@ public class Client {
             }
             switch (option) {
                 case 1 -> {
+                    String dishName;
                     System.out.println("Healthy foods");
                     System.out.println("Enter the name of the dish");
                     System.out.print(">>> ");
-                    String name = scanner.nextLine();
+                    dishName = scanner.nextLine();
+                    String name = dishName.toLowerCase();
                     Dish dish = healthyFoods.searchDish(name);
                     if (dish != null) {
                         order.add(dish);
@@ -250,10 +267,12 @@ public class Client {
                     }
                 }
                 case 2 -> {
+                    String dishName;
                     System.out.println("Main dishes");
                     System.out.println("Enter the name of the dish");
                     System.out.print(">>> ");
-                    String name = scanner.nextLine();
+                    dishName = scanner.nextLine();
+                    String name = dishName.toLowerCase();
                     Dish dish = mainDishes.searchDish(name);
                     if (dish != null) {
                         order.add(dish);
@@ -263,10 +282,12 @@ public class Client {
                     }
                 }
                 case 3 -> {
+                    String dishName;
                     System.out.println("Fast food");
                     System.out.println("Enter the name of the dish");
                     System.out.print(">>> ");
-                    String name = scanner.nextLine();
+                    dishName = scanner.nextLine();
+                    String name = dishName.toLowerCase();
                     Dish dish = fastFood.searchDish(name);
                     if (dish != null) {
                         order.add(dish);
@@ -276,10 +297,12 @@ public class Client {
                     }
                 }
                 case 4 -> {
+                    String dishName;
                     System.out.println("Drinks");
                     System.out.println("Enter the name of the dish");
                     System.out.print(">>> ");
-                    String name = scanner.nextLine();
+                    dishName = scanner.nextLine();
+                    String name = dishName.toLowerCase();
                     Dish dish = drinks.searchDish(name);
                     if (dish != null) {
                         order.add(dish);
@@ -289,10 +312,12 @@ public class Client {
                     }
                 }
                 case 5 -> {
+                    String dishName;
                     System.out.println("Desserts");
                     System.out.println("Enter the name of the dish");
                     System.out.print(">>> ");
-                    String name = scanner.nextLine();
+                    dishName = scanner.nextLine();
+                    String name = dishName.toLowerCase();
                     Dish dish = desserts.searchDish(name);
                     if (dish != null) {
                         order.add(dish);
@@ -365,6 +390,7 @@ public class Client {
                             Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
                             express.setOrderList(orderList);
                             sendOrder(express);
+                            orderNumber = random.nextInt(1000);
                             System.out.println("Order completed");
                         }
                         case 2 -> {
@@ -377,6 +403,7 @@ public class Client {
                                 EatingIn eatingIn = new EatingIn(orderNumber, timeFormatted, totalPrice, tableNumber, currentCostumer);
                                 eatingIn.setOrderList(orderList);
                                 sendOrder(eatingIn);
+                                orderNumber = random.nextInt(1000);
                                 System.out.println("Order completed");
                             } else {
                                 System.out.println("Invalid table number");
@@ -386,6 +413,7 @@ public class Client {
                             ToGo toGo = new ToGo(orderNumber, timeFormatted, totalPrice, currentCostumer);
                             toGo.setOrderList(orderList);
                             sendOrder(toGo);
+                            orderNumber = random.nextInt(1000);
                             System.out.println("Order completed");
                         }
                         default -> System.out.println("Invalid option");
@@ -408,11 +436,76 @@ public class Client {
         return totalPrice;
     }
 
+    public static void modifyMenu(Menu menu){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the name of the dish you want to modify: ");
+        System.out.print(">>> ");
+        String dishName = scanner.nextLine().toLowerCase();
+
+        Dish dish = menu.searchDish(dishName);
+        if (dish == null){
+            System.out.println("Dish not found");
+            return;
+        }
+
+        System.out.println("What do you want to modify?");
+        System.out.println("1. Name");
+        System.out.println("2. Description");
+        System.out.println("3. Estimated time");
+        System.out.println("4. Price");
+        System.out.println("5. Exit");
+        int option;
+        try {
+            System.out.print(">>> ");
+            option = scanner.nextInt();
+            scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            scanner.nextLine();
+            return;
+        }
+        switch (option) {
+            case 1 -> {
+                System.out.println("Enter the new name: ");
+                System.out.print(">>> ");
+                String newName = scanner.nextLine();
+                dish.setName(newName);
+            }
+            case 2 -> {
+                System.out.println("Enter the new description: ");
+                System.out.print(">>> ");
+                String newDescription = scanner.nextLine();
+                dish.setDescription(newDescription);
+            }
+            case 3 -> {
+                System.out.println("Enter the new estimated time: ");
+                System.out.print(">>> ");
+                String newEstimatedTime = scanner.nextLine();
+                dish.setEstimatedTime(newEstimatedTime);
+            }
+            case 4 -> {
+                System.out.println("Enter the new price: ");
+                System.out.print(">>> ");
+                int newPrice = scanner.nextInt();
+                scanner.nextLine();
+                dish.setPrice(newPrice);
+            }
+            case 5 -> {
+                return;
+            }
+            default -> {
+                System.out.println("Invalid option");
+                return;
+            }
+        }
+        modifiedDishes.add(dish);
+        System.out.println("Dish modified");
+    }
+
     public static void sendOrder(Order order){
         try {
             //Socket socket = new Socket("192.168.1.104", 8080);
             Socket socket = new Socket("localhost", 8080);
-            //EatingIn order = new EatingIn(1, "12:00", 10000, 1, new Costumer("juan", "perez", "male", 6, 123, 124, "san ramon", "las lomas", "123", "oo"));
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             // Crear y enviar objeto al servidor
             oos.writeObject(order);
@@ -427,19 +520,23 @@ public class Client {
         }
     }
 
-
     public static void main(String[] args) {
         //sendOrder();
         setMenu();
         setTables();
         boolean exit = false;
-        Costumer isaac = new Costumer("iZack", "Ramirez","Male", 18, 1, 88288680, "Alajuela", "San Ramon", "Las Lomas, 50 metros sur de la central de taxis", "123");
+        Costumer isaac = new Costumer("iZack", "Ramirez","Male", 18, 1, 88288680, "Alajuela", "San Ramon", "Las Lomas, 50 metros sur de la central de taxis", "2626");
+        Costumer adrian = new Costumer("Adrian", "Villalobos", "Male", 18, 2, 78765896, "Alajuela", "San Ramon", "100 metros de la Jackson Memorial", "123");
+        Costumer lorenzo = new Costumer("Jose","Lorenz", "Male", 20, 3, 89765722, "Guanacaste", "Tilarán", "100 metros del palo de mango", "123");
         costumerList.add(isaac);
+        costumerList.add(adrian);
+        costumerList.add(lorenzo);
         System.out.println("Welcome to Chakalito's Restaurant");
         while (!exit) {
             System.out.println("1. Register User");
             System.out.println("2. Login");
-            System.out.println("3. Exit");
+            System.out.println("3. Modify menu");
+            System.out.println("4. Exit");
             Scanner scanner = new Scanner(System.in);
             int option = 0;
             try{
@@ -458,6 +555,36 @@ public class Client {
                     }
                 }
                 case 3 -> {
+                    System.out.println("What menu do you want to modify?");
+                    System.out.println("1. Healthy foods");
+                    System.out.println("2. Main dishes");
+                    System.out.println("3. Fast food");
+                    System.out.println("4. Drinks");
+                    System.out.println("5. Desserts");
+                    System.out.println("6. Exit");
+                    int option2 = 0;
+                    try{
+                        System.out.print(">>> ");
+                        option2 = scanner.nextInt();
+                        scanner.nextLine();
+                    }
+                    catch (InputMismatchException e){
+                        System.out.println("Invalid option");
+                    }
+                    switch (option2) {
+                        case 1 -> modifyMenu(healthyFoods);
+                        case 2 -> modifyMenu(mainDishes);
+                        case 3 -> modifyMenu(fastFood);
+                        case 4 -> modifyMenu(drinks);
+                        case 5 -> modifyMenu(desserts);
+                        case 6 -> {
+                            exit = true;
+                            System.out.println("Exit");
+                        }
+                        default -> System.out.println("Invalid option");
+                    }
+                }
+                case 4 -> {
                     exit = true;
                     System.out.println("Exit");
                 }

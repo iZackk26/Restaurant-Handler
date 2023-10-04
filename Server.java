@@ -189,17 +189,43 @@ public class Server {
 
         Order receivedObject = (Order) o.readObject();
         orders.add((Order) receivedObject);
-        System.out.println("Received object: " + receivedObject);
+        //System.out.println("Received object: " + receivedObject);
         o.close();
         socket.close();
         serverSocket.close();
     }
     public static void main (String[] args) {
+        Employee izack = new Employee("iZack", "Ramirez", "male", 18, 1, 88288680, 1, "Juan", 5);
+        employees.add(izack);
         try {
-            Server server = new Server();
+            ServerSocket serverSocket = new ServerSocket(8080);
+            System.out.println("Waiting for connection...");
+
+            // Start a thread for socket communication
+            Thread socketThread = new Thread(() -> {
+                while (true) {
+                    try {
+                        Socket socket = serverSocket.accept();
+                        ObjectInputStream o = new ObjectInputStream(socket.getInputStream());
+                        Order receivedObject = (Order) o.readObject();
+                        orders.add(receivedObject);
+                        o.close();
+                        socket.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            // Start the socket thread
+            socketThread.start();
+
+            // Main UI loop
+            while (true) {
+                employeeServerMenu();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
