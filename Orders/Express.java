@@ -56,5 +56,17 @@ public class Express extends Order implements Serializable {
         return orderedDishes;
     }
 
-
+    @Override
+    public String toString() {
+        return "Express{" +
+                "deliveryAddress='" + deliveryAddress + '\'' +
+                ", estimatedDeliveryTime='" + estimatedDeliveryTime + '\'' +
+                ", deliveryDriver=" + deliveryDriver +
+                ", costumer=" + costumer +
+                ", orderedDishes=" + orderedDishes +
+                ", orderNumber=" + orderNumber +
+                ", initialTime='" + initialTime + '\'' +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }
