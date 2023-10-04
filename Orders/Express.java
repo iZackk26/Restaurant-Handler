@@ -7,13 +7,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Express extends Order implements Serializable {
+    private static final long serialVersionUID = 6321314560512687141L;
     private String deliveryAddress;
     private String estimatedDeliveryTime;
     private DeliveryDriver deliveryDriver;
     public Express(int orderNumber, String initialTime, int totalPrice, String deliveryAddress, Costumer costumer) {
         super(orderNumber, initialTime, totalPrice, costumer);
         this.deliveryAddress = deliveryAddress;
-        this.estimatedDeliveryTime = "";
     }
 
     public Express() {

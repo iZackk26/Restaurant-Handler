@@ -387,6 +387,7 @@ public class Client {
                         case 1 -> {
                             System.out.println("Enter your address");
                             String address = scanner.nextLine();
+                            scanner.nextLine();
                             Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
                             express.setOrderList(orderList);
                             sendOrder(express);
@@ -504,8 +505,8 @@ public class Client {
 
     public static void sendOrder(Order order){
         try {
-            //Socket socket = new Socket("192.168.1.104", 8080);
-            Socket socket = new Socket("localhost", 8080);
+            Socket socket = new Socket("192.168.43.39", 8080);
+            //Socket socket = new Socket("localhost", 8080);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             // Crear y enviar objeto al servidor
             oos.writeObject(order);

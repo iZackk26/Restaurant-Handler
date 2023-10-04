@@ -1,6 +1,8 @@
 package Person;
 
-public class DeliveryDriver extends Person{
+import java.io.Serializable;
+
+public class DeliveryDriver extends Person implements Serializable {
     protected Transportation car;
     private String password;
 
