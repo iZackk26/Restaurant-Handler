@@ -2,6 +2,7 @@ package Orders;
 import Person.Costumer;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,14 +28,6 @@ public class ToGo extends Order implements Serializable {
         return pickUpTime;
     }
 
-    public void setPickUpTime() {
-        LocalTime time = LocalTime.now();
-        DateTimeFormatter Date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DateTimeFormatter hour = DateTimeFormatter.ofPattern("HH:mm:ss");
-        this.pickUpDate = Date.format(time);
-        this.pickUpTime = time.format(hour);
-    }
-
     public String getPickUpDate() {
         return pickUpDate;
     }
@@ -47,5 +40,14 @@ public class ToGo extends Order implements Serializable {
     }
     public ArrayList<Dish> getDishList() {
         return this.orderedDishes;
+    }
+
+    public void assignPickUpTime() {
+        LocalTime time = LocalTime.now();
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter hour = DateTimeFormatter.ofPattern("HH:mm:ss");
+        this.pickUpTime = time.format(hour);
+        this.pickUpDate = date.format(formatter);
     }
 }
