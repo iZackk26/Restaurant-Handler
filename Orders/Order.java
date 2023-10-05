@@ -103,7 +103,8 @@ public abstract class Order implements Serializable {
     public void setFinalTime() {
         LocalTime time = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        this.finalTime = time.format(formatter);
+        String timeFormatted = time.format(formatter);
+        this.finalTime = timeFormatted;
     }
 
     public void showDishes() {
