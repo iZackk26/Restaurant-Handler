@@ -86,20 +86,24 @@ public class Server {
             scanner.nextLine();
             for (Order order : handlerOrders) {
                 if (order.getOrderNumber() == orderNumber) {
-                    System.out.println("These are the dishes of the order: ");
-                    order.showDishes();
-                    System.out.println();
-                    System.out.println("Enter the dish name you want to mark as completed: ");
-                    String dishName = scanner.nextLine();
-                    for (Dish dish : order.getOrderedDishes()) {
-                        if (dish.getName().equals(dishName)) {
-                            dish.setFinished(true);
-                            System.out.println("Dish marked as completed");
-                            analyzeOrder(order);
-                            return;
+                    if (order.getOrderHandler().getEmployeeId() == currentEmployee.getEmployeeId()) {
+                        System.out.println("These are the dishes of the order: ");
+                        order.showDishes();
+                        System.out.println();
+                        System.out.println("Enter the dish name you want to mark as completed: ");
+                        String dishName = scanner.nextLine();
+                        for (Dish dish : order.getOrderedDishes()) {
+                            if (dish.getName().equals(dishName)) {
+                                dish.setFinished(true);
+                                System.out.println("Dish marked as completed");
+                                analyzeOrder(order);
+                                return;
+                            }
                         }
+                        System.out.println("Invalid dish name");
+                        return;
                     }
-                    System.out.println("Invalid dish name");
+                    System.out.println("You are not the handler of this order");
                     return;
                 }
             }
@@ -121,10 +125,14 @@ public class Server {
             scanner.nextLine();
             for (ToGo toGoOrder : readyToGoOrders) {
                 if (toGoOrder.getOrderNumber() == orderNumber) {
-                    toGoOrder.assignPickUpTime();
-                    readyToGoOrders.remove(toGoOrder);
-                    history.add(toGoOrder);
-                    System.out.println("Order picked up");
+                    if (toGoOrder.getOrderHandler().getEmployeeId() == currentEmployee.getEmployeeId()) {
+                        toGoOrder.assignPickUpTime();
+                        readyToGoOrders.remove(toGoOrder);
+                        history.add(toGoOrder);
+                        System.out.println("Order picked up");
+                        return;
+                    }
+                    System.out.println("You are not the handler of this order");
                     return;
                 }
             }
