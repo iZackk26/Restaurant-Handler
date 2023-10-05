@@ -387,6 +387,7 @@ public class Client {
                         case 1 -> {
                             System.out.println("Enter your address");
                             String address = scanner.nextLine();
+                            scanner.nextLine();
                             Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
                             express.setOrderList(orderList);
                             sendOrder(express);

@@ -4,11 +4,14 @@ import Person.Costumer;
 import Person.Employee;
 
 import java.io.Serializable;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public abstract class Order implements Serializable {
     protected int orderNumber;
     protected String initialTime;
+    protected String finalTime;
     protected int totalPrice;
     protected String registrationDate;
     protected String status;
@@ -19,6 +22,7 @@ public abstract class Order implements Serializable {
         this.orderNumber = orderId;
         this.initialTime = initialTime;
         this.totalPrice = totalPrice;
+        this.finalTime = "";
         this.registrationDate = "";
         this.status = "";
         this.orderedDishes = new ArrayList<Dish>();
@@ -90,6 +94,16 @@ public abstract class Order implements Serializable {
 
     public void setOrderHandler(Employee orderHandler) {
         this.orderHandler = orderHandler;
+    }
+
+    public String getFinalTime() {
+        return finalTime;
+    }
+
+    public void setFinalTime() {
+        LocalTime time = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        this.finalTime = time.format(formatter);
     }
 
     public void showDishes() {

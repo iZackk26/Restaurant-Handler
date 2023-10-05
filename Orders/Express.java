@@ -14,7 +14,6 @@ public class Express extends Order implements Serializable {
     public Express(int orderNumber, String initialTime, int totalPrice, String deliveryAddress, Costumer costumer) {
         super(orderNumber, initialTime, totalPrice, costumer);
         this.deliveryAddress = deliveryAddress;
-        this.estimatedDeliveryTime = "";
     }
 
     public Express() {
@@ -57,5 +56,17 @@ public class Express extends Order implements Serializable {
         return orderedDishes;
     }
 
-
+    @Override
+    public String toString() {
+        return "Express{" +
+                "deliveryAddress='" + deliveryAddress + '\'' +
+                ", estimatedDeliveryTime='" + estimatedDeliveryTime + '\'' +
+                ", deliveryDriver=" + deliveryDriver +
+                ", costumer=" + costumer +
+                ", orderedDishes=" + orderedDishes +
+                ", orderNumber=" + orderNumber +
+                ", initialTime='" + initialTime + '\'' +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }
