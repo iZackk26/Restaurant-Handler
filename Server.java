@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Server {
     static ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -43,28 +45,20 @@ public class Server {
 
     public static void assignOrderHandler() {
         try {
-            System.out.println("Enter your employee ID: ");
             Scanner scanner = new Scanner(System.in);
             int id = scanner.nextInt();
-            boolean employeeFound = false;
-            for (Employee employee : employees) {
-                if (employee.getEmployeeId() == id) {
-                    System.out.println("Enter the order number: ");
-                    int orderId = scanner.nextInt();
-                    for (Order order : orders) {
-                        if (order.getOrderNumber() == orderId) {
-                            order.setOrderHandler(employee);
-                            System.out.println("Order assigned");
-                            return;
-                        }
-                    }
-                    System.out.println("Invalid order number");
+            scanner.nextLine();
+            System.out.println("Enter the order number: ");
+            System.out.print(">>> ");
+            int orderId = scanner.nextInt();
+            for (Order order : orders) {
+                if (order.getOrderNumber() == orderId) {
+                    order.setOrderHandler(currentEmployee);
+                    System.out.println("Order assigned");
                     return;
                 }
             }
-            if (!employeeFound) {
-                System.out.println("Invalid employee ID");
-            }
+            System.out.println("Invalid order number");
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid number.");
         }
@@ -84,15 +78,12 @@ public class Server {
 
     public static void manageOrders() {
         try {
-            System.out.println("Enter your employee ID: ");
             Scanner scanner = new Scanner(System.in);
-            int id = scanner.nextInt();
-            scanner.nextLine();
-            ArrayList<Order> handlerOrders = showHandlerOrders(id);
+            ArrayList<Order> handlerOrders = showHandlerOrders(currentEmployee.getEmployeeId());
             System.out.println("Enter the order number: ");
+            System.out.print(">>> ");
             int orderNumber = scanner.nextInt();
             scanner.nextLine();
-            boolean orderFound = false;
             for (Order order : handlerOrders) {
                 if (order.getOrderNumber() == orderNumber) {
                     System.out.println("These are the dishes of the order: ");
@@ -112,9 +103,7 @@ public class Server {
                     return;
                 }
             }
-            if (!orderFound) {
-                System.out.println("Invalid order number");
-            }
+            System.out.println("Invalid order number");
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid number.");
         }
@@ -122,32 +111,22 @@ public class Server {
 
     public static void manageToGoOrders() {
         try {
-            System.out.println("Enter the order number: ");
+            System.out.println("Those are the orders waiting to pick up: ");
+            for (ToGo order : readyToGoOrders) {
+                System.out.println(order);
+            }
+            System.out.println("Enter the number of the order that has been picked up: ");
             Scanner scanner = new Scanner(System.in);
             int orderNumber = scanner.nextInt();
             scanner.nextLine();
-            boolean orderFound = false;
-            for (Order toGoOrder : readyToGoOrders) {
+            for (ToGo toGoOrder : readyToGoOrders) {
                 if (toGoOrder.getOrderNumber() == orderNumber) {
-                    System.out.println("These are the dishes of the order: ");
-                    toGoOrder.showDishes();
-                    System.out.println();
-                    System.out.println("Enter the dish name you want to mark as completed: ");
-                    String dishName = scanner.nextLine();
-                    for (Dish dish : toGoOrder.getOrderedDishes()) {
-                        if (dish.getName().equals(dishName)) {
-                            dish.setFinished(true);
-                            System.out.println("Dish marked as completed");
-                            analyzeOrder(toGoOrder);
-                            return;
-                        }
-                    }
-                    System.out.println("Invalid dish name");
+                    toGoOrder.assignPickUpTime();
+                    readyToGoOrders.remove(toGoOrder);
+                    history.add(toGoOrder);
+                    System.out.println("Order picked up");
                     return;
                 }
-            }
-            if (!orderFound) {
-                System.out.println("Invalid order number");
             }
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid number.");
@@ -198,7 +177,7 @@ public class Server {
         }
     }
 
-    public static void mainMenu() {
+    public static boolean mainMenu() {
         System.out.println("1. Log in");
         System.out.println("2. Register");
         System.out.println("3. Exit");
@@ -208,10 +187,13 @@ public class Server {
         scanner.nextLine();
         switch (option) {
             case 1:
-                employeesLogIn();
+                if(employeesLogIn()) {
+                    return true;
+                }
                 break;
             case 2:
                 registerEmployee();
+                mainMenu();
                 break;
             case 3:
                 System.exit(0);
@@ -220,6 +202,7 @@ public class Server {
                 System.out.println("Invalid option");
                 break;
         }
+        return false;
     }
     public static void employeeServerMenu() {
         System.out.println("1. Check pending orders status");
@@ -236,7 +219,10 @@ public class Server {
                 checkOrdersStatus();
                 break;
             case 2:
-                System.out.println("Those are the orders waiting to pick up: ");
+                if (readyToGoOrders.isEmpty()) {
+                    System.out.println("There are no orders waiting to pick up");
+                    break;
+                }
                 for (ToGo order : readyToGoOrders) {
                     System.out.println(order);
                 }
@@ -257,7 +243,7 @@ public class Server {
         }
     }
 
-    public static void employeesLogIn() {
+    public static boolean employeesLogIn() {
         try {
             System.out.println("Enter your employee ID: ");
             System.out.print(">>> ");
@@ -275,16 +261,17 @@ public class Server {
                         System.out.println("Welcome " + currentEmployee.getName());
                         System.out.println("\n");
                         employeeServerMenu();
-                        return;
+                        return true;
                     }
                     System.out.println("Invalid password");
-                    return;
+                    return false;
                 }
             }
             System.out.println("No user found");
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid employee ID.");
         }
+        return false;
     }
 
     public static void registerEmployee() {
@@ -384,7 +371,12 @@ public class Server {
 
             // Main UI loop
             while (true) {
-                mainMenu();
+                if (mainMenu()) {
+                    break;
+                }
+            }
+            while (true) {
+                employeeServerMenu();
             }
         } catch (Exception e) {
             e.printStackTrace();
