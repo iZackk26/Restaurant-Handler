@@ -214,7 +214,7 @@ public class Client {
         return false;
     }
     public static void checkModifiedMenu(){
-        if (modifiedDishes.size() > 0){
+        if (!modifiedDishes.isEmpty()){
             System.out.println("-----------------------");
             System.out.println("Modified dishes");
             for (Dish dish : modifiedDishes) {
@@ -342,6 +342,18 @@ public class Client {
         }
         return order;
     }
+
+    public static int calculateMaxTime(ArrayList<Dish> list){
+        int maxTime = 0;
+        for(Dish dish : list){
+            String estimatedTime = dish.getEstimatedTime();
+            int time = Integer.parseInt(estimatedTime.substring(0, estimatedTime.indexOf(" ")));
+            if(time > maxTime){
+                maxTime = time;
+            }
+        }
+        return maxTime;
+    }
     public static void orderMenu(){
         openMenu();
         Scanner scanner = new Scanner(System.in);
@@ -369,6 +381,7 @@ public class Client {
                 case 1 -> orderList = order();
                 case 2 -> {
                     // Eating in
+                    int totalTime = calculateMaxTime(orderList);
                     int totalPrice = calculateTotalPrice(orderList);
                     System.out.println("Does your order is for delivery, eating in or take out?");
                     System.out.println("1. Delivery");
@@ -389,6 +402,7 @@ public class Client {
                             String address = scanner.nextLine();
                             scanner.nextLine();
                             Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
+                            express.setEstimatedTime(totalTime);
                             express.setOrderList(orderList);
                             sendOrder(express);
                             orderNumber = random.nextInt(1000);
@@ -402,6 +416,7 @@ public class Client {
                             scanner.nextLine();
                             if (checkTable(tableNumber)) {
                                 EatingIn eatingIn = new EatingIn(orderNumber, timeFormatted, totalPrice, tableNumber, currentCostumer);
+                                eatingIn.setEstimatedTime(totalTime);
                                 eatingIn.setOrderList(orderList);
                                 sendOrder(eatingIn);
                                 orderNumber = random.nextInt(1000);
@@ -412,6 +427,7 @@ public class Client {
                         }
                         case 3 -> {
                             ToGo toGo = new ToGo(orderNumber, timeFormatted, totalPrice, currentCostumer);
+                            toGo.setEstimatedTime(totalTime);
                             toGo.setOrderList(orderList);
                             sendOrder(toGo);
                             orderNumber = random.nextInt(1000);
@@ -425,7 +441,6 @@ public class Client {
                     System.out.println("Exit");
                 }
             }
-
         }
     }
 

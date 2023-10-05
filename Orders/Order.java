@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public abstract class Order implements Serializable {
     protected int orderNumber;
     protected String initialTime;
+    protected int estimatedTime;
     protected int totalPrice;
     protected String registrationDate;
     protected String status;
@@ -98,6 +99,12 @@ public abstract class Order implements Serializable {
         for (Dish dish : orderedDishes) {
             System.out.println(dish);
         }
+    }
+    public void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime = estimatedTime;
+    }
+    public int getEstimatedTime() {
+        return estimatedTime;
     }
 
     public ArrayList<Dish> getOrderedDishes() {

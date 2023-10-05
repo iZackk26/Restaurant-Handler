@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="a7da298a-8fd7-4af4-9710-c1469d7ad65a" name="Changes" comment="" />
-=======
-    <list default="true" id="8a773f47-7d75-4338-907c-2ef76a7adfa0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Orders/Express.java" beforeDir="false" afterPath="$PROJECT_DIR$/Orders/Express.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Person/DeliveryDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/Person/DeliveryDriver.java" afterDir="false" />
-    </list>
->>>>>>> 0f1df15b2d8eb6335687d7703f3d1081456a5871
+    <list default="true" id="8a773f47-7d75-4338-907c-2ef76a7adfa0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-<<<<<<< HEAD
-  <component name="TaskManager">
-=======
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -81,9 +74,37 @@
       <workItem from="1696367606398" duration="1118000" />
       <workItem from="1696428440779" duration="10298000" />
       <workItem from="1696446264888" duration="1236000" />
-      <workItem from="1696447588184" duration="1741000" />
+      <workItem from="1696447588184" duration="4859000" />
+      <workItem from="1696513100071" duration="192000" />
     </task>
->>>>>>> 0f1df15b2d8eb6335687d7703f3d1081456a5871
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.InputMismatchException" package="java.util" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.NotSerializableException" package="java.io" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
