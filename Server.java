@@ -1,6 +1,7 @@
 import Orders.*;
 import Person.Employee;
 
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.ObjectInputStream;
@@ -98,14 +99,14 @@ public class Server {
                     System.out.println();
                     System.out.println("Enter the dish name you want to mark as completed: ");
                     String dishName = scanner.nextLine();
-                    //for (Dish dish : order.getOrderedDishes()) {
-                        //if (dish.getName().equals(dishName)) {
-                            //dish.setFinished(true);
-                            //System.out.println("Dish marked as completed");
-                            //analyzeOrder(order);
-                            //return;
-                        //}
-                    //} Check this!
+                    for (Dish dish : order.getOrderedDishes()) {
+                        if (dish.getName().equals(dishName)) {
+                            dish.setFinished(true);
+                            System.out.println("Dish marked as completed");
+                            analyzeOrder(order);
+                            return;
+                        }
+                    }
                     System.out.println("Invalid dish name");
                     return;
                 }
@@ -140,8 +141,26 @@ public class Server {
         else {
             System.out.println("The order is ready to deliver, wait for the driver");
             orders.remove(order);
-            readyExpressOrders.add((Express) order);
+            sendOrder(order);
             return;
+        }
+    }
+
+    public static void sendOrder(Order order){
+        try {
+            Socket socket = new Socket("192.168.43.160", 8080);
+            //Socket socket = new Socket("localhost", 8080);
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            // Crear y enviar objeto al servidor
+            oos.writeObject(order);
+            System.out.println("Objeto enviado: " + order.getOrderNumber());
+            for (Dish dish : order.getOrderedDishes()) {
+                System.out.println(dish);
+            }
+            oos.close();
+            socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -207,7 +226,7 @@ public class Server {
                     try {
                         Socket socket = serverSocket.accept();
                         ObjectInputStream o = new ObjectInputStream(socket.getInputStream());
-                        Order receivedObject = (Order) o.readObject();
+                        Order receivedObject = ((Order) o.readObject());
                         orders.add(receivedObject);
                         o.close();
                         socket.close();

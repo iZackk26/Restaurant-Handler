@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Express extends Order implements Serializable {
+    private static final long serialVersionUID = 6321314560512687141L;
     private String deliveryAddress;
     private String estimatedDeliveryTime;
     private DeliveryDriver deliveryDriver;

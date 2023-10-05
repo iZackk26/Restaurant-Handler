@@ -1,6 +1,8 @@
 package Person;
 
-public class Transportation {
+import java.io.Serializable;
+
+public class Transportation implements Serializable {
     private String plateNumber;
     private String type;
 
