@@ -113,7 +113,7 @@ public abstract class Order implements Serializable {
                 "Order status: " + status + "\n";
 
         if (orderHandler != null) {
-            result += "Order handler: " + orderHandler + "\n";
+            result += "Order handler: " + orderHandler.getName() + "\n";
         } else {
             result += "Not affiliated to any handler yet\n";
         }

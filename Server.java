@@ -278,7 +278,7 @@ public class Server {
         try {
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Enter your employee ID: ");
+            System.out.println("Enter your employee ID (this is the ID that will be used in this system: ");
             System.out.print(">>> ");
             int employeeId = scanner.nextInt();
             scanner.nextLine();
