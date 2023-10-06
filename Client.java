@@ -520,7 +520,7 @@ public class Client {
 
     public static void sendOrder(Order order){
         try {
-            Socket socket = new Socket("192.168.43.60", 8080);
+            Socket socket = new Socket("192.168.43.39", 8080);
             //Socket socket = new Socket("localhost", 8080);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             // Crear y enviar objeto al servidor
