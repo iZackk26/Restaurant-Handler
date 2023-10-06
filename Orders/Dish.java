@@ -8,7 +8,7 @@ public class Dish implements Serializable {
     private String estimatedTime;
     private int price;
     private boolean finished;
-
+    private int timesOrdered;
 
     // Methods
 
@@ -18,6 +18,7 @@ public class Dish implements Serializable {
         this.estimatedTime = estimatedTime;
         this.price = price;
         this.finished = finished;
+        this.timesOrdered = 0;
     }
 
     public Dish() {
@@ -70,6 +71,14 @@ public class Dish implements Serializable {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public int getTimesOrdered() {
+        return timesOrdered;
+    }
+
+    public void setTimesOrdered(int timesOrdered) {
+        this.timesOrdered = timesOrdered;
     }
 
     public String toString() {
