@@ -11,12 +11,30 @@ import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * The type Delivery server.
+ */
 public class DeliveryServer {
+    /**
+     * The Delivered express orders.
+     */
     static ArrayList<Express> deliveredExpressOrders = new ArrayList<>();
+    /**
+     * The Ready express orders.
+     */
     static ArrayList<Express> readyExpressOrders = new ArrayList<>();
+    /**
+     * The Delivery drivers.
+     */
     static ArrayList<DeliveryDriver> deliveryDrivers = new ArrayList<>();
+    /**
+     * The Current driver.
+     */
     static DeliveryDriver currentDriver = null;
 
+    /**
+     * Express history details.
+     */
     public static void expressHistoryDetails(){
         int totalOrders = deliveredExpressOrders.size();
         System.out.println("Total orders: " + totalOrders);
@@ -29,6 +47,13 @@ public class DeliveryServer {
             System.out.println("\n");
         }
     }
+
+    /**
+     * Check repeated id boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     public static boolean checkRepeatedId(int id){
         for (DeliveryDriver driver : deliveryDrivers) {
             if (driver.getId() == id){
@@ -37,6 +62,10 @@ public class DeliveryServer {
         }
         return false;
     }
+
+    /**
+     * Register user.
+     */
     public static void registerUser(){
         int id;
         Scanner scanner = new Scanner(System.in);
@@ -79,6 +108,12 @@ public class DeliveryServer {
         deliveryDrivers.add(driver);
         System.out.println("Driver created");
     }
+
+    /**
+     * Login boolean.
+     *
+     * @return the boolean
+     */
     public static boolean login(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your id");
@@ -110,6 +145,9 @@ public class DeliveryServer {
     }
 
 
+    /**
+     * Assing order.
+     */
     public static void assingOrder() {
         System.out.println("Enter the number of the order you want to deliver: ");
         for (Express order : readyExpressOrders) {
@@ -132,6 +170,11 @@ public class DeliveryServer {
         }
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main (String[] args) {
         DeliveryDriver izack = new DeliveryDriver("iZack", "Ramírez", "Male",18, 1, 88288680, "1234", new Transportation("777Z", "Car"));
         deliveryDrivers.add(izack);

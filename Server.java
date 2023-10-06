@@ -9,14 +9,38 @@ import java.util.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * The type Server.
+ */
 public class Server {
+    /**
+     * The Employees.
+     */
     static ArrayList<Employee> employees = new ArrayList<Employee>();
+    /**
+     * The Orders.
+     */
     static ArrayList<Order> orders = new ArrayList<Order>();
+    /**
+     * The Ready to go orders.
+     */
     static ArrayList<ToGo> readyToGoOrders = new ArrayList<ToGo>();
+    /**
+     * The Ready express orders.
+     */
     static ArrayList<Express> readyExpressOrders = new ArrayList<Express>();
+    /**
+     * The History.
+     */
     static ArrayList<Order> history = new ArrayList<Order>();
+    /**
+     * The Current employee.
+     */
     static Employee currentEmployee = null;
 
+    /**
+     * Check orders status.
+     */
     public static void checkOrdersStatus() {
         System.out.println("Those are the eating in orders: ");
         for (Order order : orders) {
@@ -40,6 +64,9 @@ public class Server {
         }
     }
 
+    /**
+     * Assign order handler.
+     */
     public static void assignOrderHandler() {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -60,6 +87,12 @@ public class Server {
         }
     }
 
+    /**
+     * Show handler orders array list.
+     *
+     * @param id the id
+     * @return the array list
+     */
     public static ArrayList<Order> showHandlerOrders(int id) {
         ArrayList<Order> handlerOrders = new ArrayList<Order>();
         System.out.println("Those are your orders: ");
@@ -72,6 +105,9 @@ public class Server {
         return handlerOrders;
     }
 
+    /**
+     * Manage orders.
+     */
     public static void manageOrders() {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -121,6 +157,9 @@ public class Server {
         }
     }
 
+    /**
+     * Manage to go orders.
+     */
     public static void manageToGoOrders() {
         try {
             System.out.println("Those are the orders waiting to pick up: ");
@@ -149,6 +188,11 @@ public class Server {
         }
     }
 
+    /**
+     * Analyze order.
+     *
+     * @param order the order
+     */
     public static void analyzeOrder(Order order) {
         for (Dish dish : order.orderedDishes) {
             if (!dish.isFinished()) {
@@ -176,6 +220,11 @@ public class Server {
         }
     }
 
+    /**
+     * Send order.
+     *
+     * @param order the order
+     */
     public static void sendOrder(Order order){
         try {
             //Socket socket = new Socket("192.168.43.160", 8080);
@@ -194,6 +243,11 @@ public class Server {
         }
     }
 
+    /**
+     * Main menu boolean.
+     *
+     * @return the boolean
+     */
     public static boolean mainMenu() {
         System.out.println("1. Log in");
         System.out.println("2. Register");
@@ -221,6 +275,10 @@ public class Server {
         }
         return false;
     }
+
+    /**
+     * Employee server menu.
+     */
     public static void employeeServerMenu() {
         System.out.println("1. Check pending orders status");
         System.out.println("2. Check waiting to pick up orders status");
@@ -265,6 +323,11 @@ public class Server {
         }
     }
 
+    /**
+     * Employees log in boolean.
+     *
+     * @return the boolean
+     */
     public static boolean employeesLogIn() {
         try {
             System.out.println("Enter your employee ID: ");
@@ -296,6 +359,9 @@ public class Server {
         return false;
     }
 
+    /**
+     * Register employee.
+     */
     public static void registerEmployee() {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -351,6 +417,9 @@ public class Server {
         }
     }
 
+    /**
+     * Daily report.
+     */
     public static void dailyReport() {
         try {
             System.out.print("This is the income of the day: ");
@@ -388,6 +457,11 @@ public class Server {
         }
     }
 
+    /**
+     * Instantiates a new Server.
+     *
+     * @throws Exception the exception
+     */
     public Server() throws Exception{
         ServerSocket serverSocket = new ServerSocket(8080);
         System.out.println("Waiting for conection...");
@@ -402,6 +476,12 @@ public class Server {
         socket.close();
         serverSocket.close();
     }
+
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main (String[] args) {
         Employee izack = new Employee("iZack", "Ramirez", "male", 18, 1, 88288680, 1, "1234");
         employees.add(izack);

@@ -14,18 +14,54 @@ import java.io.File;
 import java.io.*;
 import java.net.*;
 
+/**
+ * The type Client.
+ */
 public class Client {
+    /**
+     * The Costumer list.
+     */
     static ArrayList<Costumer> costumerList = new ArrayList<>();
+    /**
+     * The Modified dishes.
+     */
     static ArrayList<Dish> modifiedDishes = new ArrayList<>();
+    /**
+     * The Current costumer.
+     */
     static Costumer currentCostumer = null;
+    /**
+     * The Healthy foods.
+     */
     static Menu healthyFoods = new Menu();
+    /**
+     * The Main dishes.
+     */
     static Menu mainDishes = new Menu();
+    /**
+     * The Fast food.
+     */
     static Menu fastFood = new Menu();
+    /**
+     * The Drinks.
+     */
     static Menu drinks = new Menu();
+    /**
+     * The Desserts.
+     */
     static Menu desserts = new Menu();
+    /**
+     * The Table numbers.
+     */
     static ArrayList<Integer> tableNumbers = new ArrayList<>();
+    /**
+     * The Admin.
+     */
     static Employee admin = new Employee("admin", "admin", "admin", 0, 0, 0, 0, "admin");
 
+    /**
+     * Set menu.
+     */
     public static void setMenu(){
         // Healthy Foods
         Dish salad = new Dish("green salad", "Salad de with lettuce, tomatoes, and cucumber", "10 minutes", 2850, false);
@@ -99,11 +135,22 @@ public class Client {
         desserts.AddDish(pudding);
         desserts.AddDish(cookies);
     }
+
+    /**
+     * Set tables.
+     */
     public static void setTables(){
         for (int i = 1; i <= 40; i++) {
             tableNumbers.add(i);
         }
     }
+
+    /**
+     * Check table boolean.
+     *
+     * @param tableNumber the table number
+     * @return the boolean
+     */
     public static boolean checkTable(int tableNumber){
         for (Integer number : tableNumbers) {
             if (number == tableNumber) {
@@ -112,6 +159,10 @@ public class Client {
         }
         return false;
     }
+
+    /**
+     * Print tables.
+     */
     public static void printTables(){
         for (int i = 0; i < tableNumbers.size(); i++) {
             if (i % 5 == 0)
@@ -121,6 +172,9 @@ public class Client {
         System.out.println();
     }
 
+    /**
+     * Open menu.
+     */
     public static void openMenu(){
         try{
             String path = "Diagram/Menu.pdf";
@@ -134,6 +188,13 @@ public class Client {
             System.out.println("Error");
         }
     }
+
+    /**
+     * Check repeated id boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     public static boolean checkRepeatedId(int id){
         for (Costumer costumer: costumerList) {
             if (costumer.getId() == id){
@@ -142,6 +203,10 @@ public class Client {
         }
         return false;
     }
+
+    /**
+     * Register user.
+     */
     public static void registerUser(){
         int id;
         Scanner scanner = new Scanner(System.in);
@@ -187,6 +252,11 @@ public class Client {
         System.out.println("Costumer created");
     }
 
+    /**
+     * Login boolean.
+     *
+     * @return the boolean
+     */
     public static boolean login(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your id");
@@ -271,6 +341,10 @@ public class Client {
         }
         return false;
     }
+
+    /**
+     * Check modified menu.
+     */
     public static void checkModifiedMenu(){
         if (!modifiedDishes.isEmpty()){
             System.out.println("-----------------------");
@@ -282,6 +356,13 @@ public class Client {
             System.out.println("\n");
         }
     }
+
+    /**
+     * Calculate total price int.
+     *
+     * @param order the order
+     * @return the int
+     */
     public static int calculateTotalPrice(ArrayList<Dish> order){
         int totalPrice = 0;
         for (Dish dish : order) {
@@ -290,6 +371,12 @@ public class Client {
         return totalPrice;
     }
 
+    /**
+     * Calculate total preparation time int.
+     *
+     * @param order the order
+     * @return the int
+     */
     public static int calculateTotalPreparationTime(ArrayList<Dish> order){
         int totalPreparationTime = 0;
         for (Dish dish : order) {
@@ -302,6 +389,11 @@ public class Client {
         return totalPreparationTime;
     }
 
+    /**
+     * Order array list.
+     *
+     * @return the array list
+     */
     public static ArrayList<Dish> order() {
         ArrayList<Dish> order = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -420,6 +512,9 @@ public class Client {
         return order;
     }
 
+    /**
+     * Order menu.
+     */
     public static void orderMenu(){
         openMenu();
         Scanner scanner = new Scanner(System.in);
@@ -518,6 +613,11 @@ public class Client {
     }
 
 
+    /**
+     * Modify menu.
+     *
+     * @param menu the menu
+     */
     public static void modifyMenu(Menu menu){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the name of the dish you want to modify: ");
@@ -584,6 +684,11 @@ public class Client {
         System.out.println("Dish modified");
     }
 
+    /**
+     * Send order via socket.
+     *
+     * @param order the order
+     */
     public static void sendOrder(Order order){
         try {
             Socket socket = new Socket("192.168.43.39", 8080);
@@ -603,6 +708,11 @@ public class Client {
         }
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         //sendOrder();
         setMenu();
