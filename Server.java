@@ -5,10 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -46,11 +43,10 @@ public class Server {
     public static void assignOrderHandler() {
         try {
             Scanner scanner = new Scanner(System.in);
-            int id = scanner.nextInt();
-            scanner.nextLine();
             System.out.println("Enter the order number: ");
             System.out.print(">>> ");
             int orderId = scanner.nextInt();
+            scanner.nextLine();
             for (Order order : orders) {
                 if (order.getOrderNumber() == orderId) {
                     order.setOrderHandler(currentEmployee);
@@ -80,10 +76,17 @@ public class Server {
         try {
             Scanner scanner = new Scanner(System.in);
             ArrayList<Order> handlerOrders = showHandlerOrders(currentEmployee.getEmployeeId());
+
+            if (handlerOrders.isEmpty()) {
+                System.out.println("You have no orders assigned.");
+                return;
+            }
+
             System.out.println("Enter the order number: ");
             System.out.print(">>> ");
             int orderNumber = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Limpia el buffer de entrada
+
             for (Order order : handlerOrders) {
                 if (order.getOrderNumber() == orderNumber) {
                     if (order.getOrderHandler().getEmployeeId() == currentEmployee.getEmployeeId()) {
@@ -92,6 +95,7 @@ public class Server {
                         System.out.println();
                         System.out.println("Enter the dish name you want to mark as completed: ");
                         String dishName = scanner.nextLine();
+
                         for (Dish dish : order.getOrderedDishes()) {
                             if (dish.getName().equals(dishName)) {
                                 dish.setFinished(true);
@@ -110,6 +114,10 @@ public class Server {
             System.out.println("Invalid order number");
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid number.");
+        } catch (NoSuchElementException e) {
+            System.out.println("Input not found. Please provide input.");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input format. Please enter a valid number.");
         }
     }
 
@@ -162,6 +170,7 @@ public class Server {
         else {
             System.out.println("The order is ready to deliver, wait for the driver");
             orders.remove(order);
+            history.add(order);
             sendOrder(order);
             return;
         }
@@ -217,7 +226,9 @@ public class Server {
         System.out.println("2. Check waiting to pick up orders status");
         System.out.println("3. Assign order handler");
         System.out.println("4. Manage orders");
-        System.out.println("5. Exit");
+        System.out.println("5. Daily report");
+        System.out.println("6. Exit");
+        System.out.print(">>> ");
 
         Scanner scanner = new Scanner(System.in);
         int option = scanner.nextInt();
@@ -243,6 +254,9 @@ public class Server {
                 manageOrders();
                 break;
             case 5:
+                dailyReport();
+                break;
+            case 6:
                 mainMenu();
                 break;
             default:
@@ -334,6 +348,43 @@ public class Server {
             System.out.println("Employee registered successfully");
         } catch (java.util.InputMismatchException e) {
             System.out.println("Invalid input. Please enter valid values.");
+        }
+    }
+
+    public static void dailyReport() {
+        try {
+            System.out.print("This is the income of the day: ");
+            int income = 0;
+            for (Order order : history) {
+                income += order.getTotalPrice();
+            }
+            System.out.println(income);
+
+            ArrayList<Dish> dishes = new ArrayList<Dish>();
+            for (Order order : history) {
+                for (Dish dish : order.getOrderedDishes()) {
+                    if (!dishes.contains(dish)) {
+                        dishes.add(dish);
+                    } else {
+                        for (Dish dish1 : dishes) {
+                            if (dish1.equals(dish)) {
+                                dish1.setTimesOrdered(dish1.getTimesOrdered() + 1);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Comparator<Dish> comparator = Comparator.comparingInt(Dish::getTimesOrdered).reversed();
+            Collections.sort(dishes, comparator);
+
+            System.out.println("Those are the dishes sold today: ");
+            for (Dish dish : dishes) {
+                System.out.println(dish.getName() + " x" + dish.getTimesOrdered() + 1);
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
