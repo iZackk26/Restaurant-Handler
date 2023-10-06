@@ -1,5 +1,6 @@
 import Orders.*;
 import Person.Costumer;
+import Person.Employee;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Client {
     static Menu drinks = new Menu();
     static Menu desserts = new Menu();
     static ArrayList<Integer> tableNumbers = new ArrayList<>();
+    static Employee admin = new Employee("admin", "admin", "admin", 0, 0, 0, 0, "admin");
 
     public static void setMenu(){
         // Healthy Foods
@@ -201,6 +203,61 @@ public class Client {
         System.out.print(">>> ");
         String password = scanner.nextLine();
         for (Costumer costumer: costumerList) {
+            if (admin.getId() == id && admin.getPassword().equals(password)){
+                System.out.println("Login successful");
+                System.out.println("Welcome Administrator");
+                System.out.println("\n");
+                System.out.println("Do you want to modify the menu?");
+                System.out.println("1. Yes");
+                System.out.println("2. No");
+                int option = 0;
+                try{
+                    System.out.print(">>> ");
+                    option = scanner.nextInt();
+                    scanner.nextLine();
+                }
+                catch (InputMismatchException e){
+                    System.out.println("Invalid option");
+                }
+                switch (option) {
+                    case 1 -> {
+                            System.out.println("What menu do you want to modify?");
+                            System.out.println("1. Healthy foods");
+                            System.out.println("2. Main dishes");
+                            System.out.println("3. Fast food");
+                            System.out.println("4. Drinks");
+                            System.out.println("5. Desserts");
+                            System.out.println("6. Exit");
+                            int option2 = 0;
+                            try{
+                                System.out.print(">>> ");
+                                option2 = scanner.nextInt();
+                                scanner.nextLine();
+                            }
+                            catch (InputMismatchException e){
+                                System.out.println("Invalid option");
+                            }
+                            switch (option2) {
+                                case 1 -> modifyMenu(healthyFoods);
+                                case 2 -> modifyMenu(mainDishes);
+                                case 3 -> modifyMenu(fastFood);
+                                case 4 -> modifyMenu(drinks);
+                                case 5 -> modifyMenu(desserts);
+                                case 6 -> {
+                                    System.out.println("Exit");
+                                    return false;
+                                }
+                                default -> System.out.println("Invalid option");
+                            }
+                        }
+
+                    case 2 -> {
+                        return false;
+                    }
+                    default -> System.out.println("Invalid option");
+                }
+                return true;
+            }
             if (costumer.getId() == id && costumer.getPassword().equals(password)){
                 currentCostumer = costumer;
                 System.out.println("Login successful");
@@ -561,8 +618,7 @@ public class Client {
         while (!exit) {
             System.out.println("1. Register User");
             System.out.println("2. Login");
-            System.out.println("3. Modify menu");
-            System.out.println("4. Exit");
+            System.out.println("3. Exit");
             Scanner scanner = new Scanner(System.in);
             int option = 0;
             try{
@@ -580,37 +636,8 @@ public class Client {
                         orderMenu();
                     }
                 }
+
                 case 3 -> {
-                    System.out.println("What menu do you want to modify?");
-                    System.out.println("1. Healthy foods");
-                    System.out.println("2. Main dishes");
-                    System.out.println("3. Fast food");
-                    System.out.println("4. Drinks");
-                    System.out.println("5. Desserts");
-                    System.out.println("6. Exit");
-                    int option2 = 0;
-                    try{
-                        System.out.print(">>> ");
-                        option2 = scanner.nextInt();
-                        scanner.nextLine();
-                    }
-                    catch (InputMismatchException e){
-                        System.out.println("Invalid option");
-                    }
-                    switch (option2) {
-                        case 1 -> modifyMenu(healthyFoods);
-                        case 2 -> modifyMenu(mainDishes);
-                        case 3 -> modifyMenu(fastFood);
-                        case 4 -> modifyMenu(drinks);
-                        case 5 -> modifyMenu(desserts);
-                        case 6 -> {
-                            exit = true;
-                            System.out.println("Exit");
-                        }
-                        default -> System.out.println("Invalid option");
-                    }
-                }
-                case 4 -> {
                     exit = true;
                     System.out.println("Exit");
                 }
