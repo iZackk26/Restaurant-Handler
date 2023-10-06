@@ -1,6 +1,7 @@
 import Orders.*;
 import Person.Costumer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -224,6 +225,25 @@ public class Client {
             System.out.println("\n");
         }
     }
+    public static int calculateTotalPrice(ArrayList<Dish> order){
+        int totalPrice = 0;
+        for (Dish dish : order) {
+            totalPrice += dish.getPrice();
+        }
+        return totalPrice;
+    }
+
+    public static int calculateTotalPreparationTime(ArrayList<Dish> order){
+        int totalPreparationTime = 0;
+        for (Dish dish : order) {
+            String estimatedTime = dish.getEstimatedTime();
+            int time = Integer.parseInt(estimatedTime.substring(0, estimatedTime.indexOf(" ")));
+            if (time > totalPreparationTime) {
+                totalPreparationTime += time;
+            }
+        }
+        return totalPreparationTime;
+    }
 
     public static ArrayList<Dish> order() {
         ArrayList<Dish> order = new ArrayList<>();
@@ -343,17 +363,6 @@ public class Client {
         return order;
     }
 
-    public static int calculateMaxTime(ArrayList<Dish> list){
-        int maxTime = 0;
-        for(Dish dish : list){
-            String estimatedTime = dish.getEstimatedTime();
-            int time = Integer.parseInt(estimatedTime.substring(0, estimatedTime.indexOf(" ")));
-            if(time > maxTime){
-                maxTime = time;
-            }
-        }
-        return maxTime;
-    }
     public static void orderMenu(){
         openMenu();
         Scanner scanner = new Scanner(System.in);
@@ -361,6 +370,9 @@ public class Client {
         int orderNumber = random.nextInt(1000);
         LocalTime time = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String today = dateTime.format(formatter2);
         String timeFormatted = time.format(formatter);
         ArrayList<Dish> orderList = new ArrayList<>();
         boolean exit = false;
@@ -381,7 +393,8 @@ public class Client {
                 case 1 -> orderList = order();
                 case 2 -> {
                     // Eating in
-                    int totalTime = calculateMaxTime(orderList);
+                    int totalTime = calculateTotalPreparationTime(orderList);
+                    System.out.println("Total preparation time: " + totalTime + " minutes");
                     int totalPrice = calculateTotalPrice(orderList);
                     System.out.println("Does your order is for delivery, eating in or take out?");
                     System.out.println("1. Delivery");
@@ -402,6 +415,7 @@ public class Client {
                             String address = scanner.nextLine();
                             scanner.nextLine();
                             Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
+                            express.setRegistrationDate(today);
                             express.setEstimatedTime(totalTime);
                             express.setOrderList(orderList);
                             sendOrder(express);
@@ -416,6 +430,7 @@ public class Client {
                             scanner.nextLine();
                             if (checkTable(tableNumber)) {
                                 EatingIn eatingIn = new EatingIn(orderNumber, timeFormatted, totalPrice, tableNumber, currentCostumer);
+                                eatingIn.setRegistrationDate(today);
                                 eatingIn.setEstimatedTime(totalTime);
                                 eatingIn.setOrderList(orderList);
                                 sendOrder(eatingIn);
@@ -427,6 +442,7 @@ public class Client {
                         }
                         case 3 -> {
                             ToGo toGo = new ToGo(orderNumber, timeFormatted, totalPrice, currentCostumer);
+                            toGo.setRegistrationDate(today);
                             toGo.setEstimatedTime(totalTime);
                             toGo.setOrderList(orderList);
                             sendOrder(toGo);
@@ -444,13 +460,6 @@ public class Client {
         }
     }
 
-    public static int calculateTotalPrice(ArrayList<Dish> order){
-        int totalPrice = 0;
-        for (Dish dish : order) {
-            totalPrice += dish.getPrice();
-        }
-        return totalPrice;
-    }
 
     public static void modifyMenu(Menu menu){
         Scanner scanner = new Scanner(System.in);
@@ -520,8 +529,8 @@ public class Client {
 
     public static void sendOrder(Order order){
         try {
-            Socket socket = new Socket("192.168.43.60", 8080);
-            //Socket socket = new Socket("localhost", 8080);
+            //Socket socket = new Socket("192.168.43.60", 8080);
+            Socket socket = new Socket("localhost", 8080);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             // Crear y enviar objeto al servidor
             oos.writeObject(order);

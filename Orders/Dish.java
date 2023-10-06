@@ -84,7 +84,6 @@ public class Dish implements Serializable {
     public String toString() {
         String string = "Name: " + name + "\n" +
                 "Description: " + description + "\n" +
-                "Estimated time: " + estimatedTime + "\n" +
                 "Price: " + price + "\n" +
                 "Finished: " + (finished ? "Yes" : "No");
 

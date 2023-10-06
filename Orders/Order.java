@@ -12,6 +12,7 @@ public abstract class Order implements Serializable {
     protected int orderNumber;
     protected String initialTime;
     protected int estimatedTime;
+    protected int preparationTime;
     protected int totalPrice;
     protected String registrationDate;
     protected String status;
@@ -94,6 +95,12 @@ public abstract class Order implements Serializable {
     public void setOrderHandler(Employee orderHandler) {
         this.orderHandler = orderHandler;
     }
+    public void setPreparationTime(int preparationTime) {
+        this.preparationTime = preparationTime;
+    }
+    public int getPreparationTime() {
+        return preparationTime;
+    }
 
     public void showDishes() {
         for (Dish dish : orderedDishes) {
@@ -116,7 +123,7 @@ public abstract class Order implements Serializable {
     public String toString() {
         String result = "Order number: " + orderNumber + "\n" +
                 "Order date: " + registrationDate + "\n" +
-                "Order time: " + initialTime + "\n" +
+                "Order preparation time: " + estimatedTime + " minutes" +"\n" +
                 "Order status: " + status + "\n";
 
         if (orderHandler != null) {
