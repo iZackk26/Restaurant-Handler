@@ -1,22 +1,34 @@
 import Orders.Express;
 import Orders.Order;
 import Person.DeliveryDriver;
-import Person.Employee;
 import Person.Transportation;
 
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DeliveryServer {
-    static ArrayList<Express> readyExpressOrders = new ArrayList<Express>();
-    static ArrayList<DeliveryDriver> deliveryDrivers = new ArrayList<DeliveryDriver>();
+    static ArrayList<Express> deliveredExpressOrders = new ArrayList<>();
+    static ArrayList<Express> readyExpressOrders = new ArrayList<>();
+    static ArrayList<DeliveryDriver> deliveryDrivers = new ArrayList<>();
     static DeliveryDriver currentDriver = null;
 
-
+    public static void expressHistoryDetails(){
+        int totalOrders = deliveredExpressOrders.size();
+        System.out.println("Total orders: " + totalOrders);
+        Comparator<DeliveryDriver> compareByTotalDeliveries = Comparator.comparing(DeliveryDriver::getTotalDeliveries).reversed();
+        deliveryDrivers.sort(compareByTotalDeliveries);
+        for (DeliveryDriver driver : deliveryDrivers) {
+            System.out.println("Driver: " + driver.getName() + " " + driver.getLastName());
+            System.out.println("Total orders: " + driver.getTotalDeliveries());
+            System.out.println("Percentage: " + (driver.getTotalDeliveries() * 100) / totalOrders + "%");
+            System.out.println("\n");
+        }
+    }
     public static boolean checkRepeatedId(int id){
         for (DeliveryDriver driver : deliveryDrivers) {
             if (driver.getId() == id){
@@ -111,10 +123,14 @@ public class DeliveryServer {
         for (Express order : readyExpressOrders) {
             if (order.getOrderNumber() == orderNumber) {
                 order.setDeliveryDriver(currentDriver);
+                deliveredExpressOrders.add(order);
+                readyExpressOrders.remove(order);
+                System.out.println("Order assigned");
+                currentDriver.addTotalDeliveries();
+
             }
         }
     }
-
 
     public static void main (String[] args) {
         DeliveryDriver izack = new DeliveryDriver("iZack", "Ramírez", "Male",18, 1, 88288680, "1234", new Transportation("777Z", "Car"));
