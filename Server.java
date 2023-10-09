@@ -97,9 +97,11 @@ public class Server {
         ArrayList<Order> handlerOrders = new ArrayList<Order>();
         System.out.println("Those are your orders: ");
         for (Order order : orders) {
-            if (order.orderHandler.getEmployeeId() == id) {
-                System.out.println(order);
-                handlerOrders.add(order);
+            if (order.orderHandler != null) {
+                if (order.orderHandler.getEmployeeId() == id) {
+                    System.out.println(order);
+                    handlerOrders.add(order);
+                }
             }
         }
         return handlerOrders;
@@ -124,27 +126,29 @@ public class Server {
             scanner.nextLine(); // Limpia el buffer de entrada
 
             for (Order order : handlerOrders) {
-                if (order.getOrderNumber() == orderNumber) {
-                    if (order.getOrderHandler().getEmployeeId() == currentEmployee.getEmployeeId()) {
-                        System.out.println("These are the dishes of the order: ");
-                        order.showDishes();
-                        System.out.println();
-                        System.out.println("Enter the dish name you want to mark as completed: ");
-                        String dishName = scanner.nextLine();
+                if (order.orderHandler != null) {
+                    if (order.getOrderNumber() == orderNumber) {
+                        if (order.getOrderHandler().getEmployeeId() == currentEmployee.getEmployeeId()) {
+                            System.out.println("These are the dishes of the order: ");
+                            order.showDishes();
+                            System.out.println();
+                            System.out.println("Enter the dish name you want to mark as completed: ");
+                            String dishName = scanner.nextLine();
 
-                        for (Dish dish : order.getOrderedDishes()) {
-                            if (dish.getName().equals(dishName)) {
-                                dish.setFinished(true);
-                                System.out.println("Dish marked as completed");
-                                analyzeOrder(order);
-                                return;
+                            for (Dish dish : order.getOrderedDishes()) {
+                                if (dish.getName().equals(dishName)) {
+                                    dish.setFinished(true);
+                                    System.out.println("Dish marked as completed");
+                                    analyzeOrder(order);
+                                    return;
+                                }
                             }
+                            System.out.println("Invalid dish name");
+                            return;
                         }
-                        System.out.println("Invalid dish name");
+                        System.out.println("You are not the handler of this order");
                         return;
                     }
-                    System.out.println("You are not the handler of this order");
-                    return;
                 }
             }
             System.out.println("Invalid order number");
@@ -227,8 +231,8 @@ public class Server {
      */
     public static void sendOrder(Order order){
         try {
-            //Socket socket = new Socket("192.168.43.160", 8080);
-            Socket socket = new Socket("localhost", 8080);
+            Socket socket = new Socket("192.168.1.103", 8080);
+            //Socket socket = new Socket("localhost", 8080);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             // Crear y enviar objeto al servidor
             oos.writeObject(order);
