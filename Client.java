@@ -389,6 +389,11 @@ public class Client {
         return totalPreparationTime;
     }
 
+    public void setDiscount(int discount, Dish dish){
+        dish.setPrice(dish.getPrice() - discount);
+    }
+
+
     /**
      * Order array list.
      *
@@ -429,6 +434,7 @@ public class Client {
                     String name = dishName.toLowerCase();
                     Dish dish = healthyFoods.searchDish(name);
                     if (dish != null) {
+                        dish.setPrice((int) (dish.getPrice() * 0.2));
                         order.add(dish);
                         System.out.println("Dish added");
                     } else {
@@ -444,6 +450,7 @@ public class Client {
                     String name = dishName.toLowerCase();
                     Dish dish = mainDishes.searchDish(name);
                     if (dish != null) {
+                        dish.setPrice((int) (dish.getPrice() * 0.15));
                         order.add(dish);
                         System.out.println("Dish added");
                     } else {
@@ -459,6 +466,7 @@ public class Client {
                     String name = dishName.toLowerCase();
                     Dish dish = fastFood.searchDish(name);
                     if (dish != null) {
+                        dish.setPrice((int) (dish.getPrice() * 0.5));
                         order.add(dish);
                         System.out.println("Dish added");
                     } else {
@@ -489,6 +497,7 @@ public class Client {
                     String name = dishName.toLowerCase();
                     Dish dish = desserts.searchDish(name);
                     if (dish != null) {
+                        dish.setPrice((int) (dish.getPrice() * 0.12));
                         order.add(dish);
                         System.out.println("Dish added");
                     } else {
@@ -565,7 +574,6 @@ public class Client {
                         case 1 -> {
                             System.out.println("Enter your address");
                             String address = scanner.nextLine();
-                            scanner.nextLine();
                             Express express = new Express(orderNumber, timeFormatted, totalPrice, address,currentCostumer );
                             express.setRegistrationDate(today);
                             express.setEstimatedTime(totalTime);
@@ -691,8 +699,8 @@ public class Client {
      */
     public static void sendOrder(Order order){
         try {
-            Socket socket = new Socket("192.168.43.39", 8080);
-            //Socket socket = new Socket("localhost", 8080);
+            //Socket socket = new Socket("192.168.1.107", 8080);
+            Socket socket = new Socket("localhost", 8080);
             //Socket socket = new Socket("192.168.43.60", 8080);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             // Crear y enviar objeto al servidor

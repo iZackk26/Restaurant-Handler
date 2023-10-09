@@ -30,10 +30,10 @@ public class EatingIn extends Order implements Serializable {
     /**
      * Instantiates a new Eating in.
      */
-    public EatingIn() {
-        super();
-        this.tableNumber = 0;
-    }
+    //public EatingIn() {
+        //super();
+        //this.tableNumber = 0;
+    //}
 
     /**
      * Gets table number.

@@ -46,12 +46,11 @@ public class Express extends Order implements Serializable {
 
     /**
      * Instantiates a new Express.
-     */
-    public Express() {
-        super();
-        this.deliveryAddress = "";
-        this.estimatedDeliveryTime = "";
-    }
+     //public Express() {
+        //super();
+        //this.deliveryAddress = "";
+        //this.estimatedDeliveryTime = "";
+    //}
 
     /**
      * Gets delivery address.
@@ -152,17 +151,4 @@ public class Express extends Order implements Serializable {
      *
      * @return A string containing the attributes of the Express object.
      */
-    @Override
-    public String toString() {
-        return "Express{" +
-                "deliveryAddress='" + deliveryAddress + '\'' +
-                ", estimatedDeliveryTime='" + estimatedDeliveryTime + '\'' +
-                ", deliveryDriver=" + deliveryDriver +
-                ", costumer=" + costumer +
-                ", orderedDishes=" + orderedDishes +
-                ", orderNumber=" + orderNumber +
-                ", initialTime='" + initialTime + '\'' +
-                ", totalPrice=" + totalPrice +
-                '}';
-    }
 }

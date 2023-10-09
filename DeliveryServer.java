@@ -41,7 +41,7 @@ public class DeliveryServer {
         Comparator<DeliveryDriver> compareByTotalDeliveries = Comparator.comparing(DeliveryDriver::getTotalDeliveries).reversed();
         deliveryDrivers.sort(compareByTotalDeliveries);
         for (DeliveryDriver driver : deliveryDrivers) {
-            System.out.println("Driver: " + driver.getName() + " " + driver.getLastName());
+            System.out.println("Driver: " + driver.getName() + " ");
             System.out.println("Total orders: " + driver.getTotalDeliveries());
             System.out.println("Percentage: " + (driver.getTotalDeliveries() * 100) / totalOrders + "%");
             System.out.println("\n");
@@ -148,24 +148,66 @@ public class DeliveryServer {
     /**
      * Assing order.
      */
-    public static void assingOrder() {
-        System.out.println("Enter the number of the order you want to deliver: ");
-        for (Express order : readyExpressOrders) {
-            System.out.println(order);
-        }
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(">>> ");
-        int orderNumber = scanner.nextInt();
-        scanner.nextLine();
 
-        for (Express order : readyExpressOrders) {
-            if (order.getOrderNumber() == orderNumber) {
-                order.setDeliveryDriver(currentDriver);
-                deliveredExpressOrders.add(order);
-                readyExpressOrders.remove(order);
-                System.out.println("Order assigned");
-                currentDriver.addTotalDeliveries();
-
+    public static void Menu(){
+        System.out.println("Welcome to the delivery server");
+        boolean exit = false;
+        while (!exit) {
+            int option = 0;
+            int orderNumber = 0;
+            System.out.println("1. See orders");
+            System.out.println("2. See express history details");
+            System.out.println("3. Pick up order");
+            System.out.println("4. Exit");
+            System.out.print(">>> ");
+            Scanner scanner = new Scanner(System.in);
+            try {
+                System.out.print(">>> ");
+                option = scanner.nextInt();
+                if (option < 1 || option > 4) {
+                    System.out.println("Invalid option");
+                    continue;
+                }
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid option");
+            }
+            switch (option) {
+                case 1:
+                    System.out.println("Ready orders: ");
+                    for (Express order : readyExpressOrders) {
+                        System.out.println(order);
+                    }
+                    break;
+                case 2:
+                    expressHistoryDetails();
+                    break;
+                case 3:
+                    System.out.println("Enter the number of the order you want to deliver: ");
+                    try {
+                        System.out.print(">>> ");
+                        orderNumber = scanner.nextInt();
+                        scanner.nextLine();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid option");
+                    }
+                    for (Express order : readyExpressOrders) {
+                        if (order.getOrderNumber() == orderNumber) {
+                            order.setDeliveryDriver(currentDriver);
+                            deliveredExpressOrders.add(order);
+                            readyExpressOrders.remove(order);
+                            System.out.println("Order assigned");
+                            currentDriver.addTotalDeliveries();
+                            return;
+                        }
+                    }
+                    break;
+                case 4:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid option");
+                    break;
             }
         }
     }
@@ -202,7 +244,9 @@ public class DeliveryServer {
 
             // Main UI loop
             while (true) {
-                assingOrder();
+                if (login()){
+                    Menu();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

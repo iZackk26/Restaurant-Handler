@@ -38,11 +38,11 @@ public class ToGo extends Order implements Serializable {
     /**
      * Instantiates a new To go.
      */
-    public ToGo() {
-        super();
-        this.pickUpTime = "";
-        this.pickUpDate = "";
-    }
+    //public ToGo() {
+        //super();
+        //this.pickUpTime = "";
+        //this.pickUpDate = "";
+    //}
 
     /**
      * Gets pick up time.

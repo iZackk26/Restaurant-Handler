@@ -42,9 +42,9 @@ public class DeliveryDriver extends Person implements Serializable {
     /**
      * Instantiates a new Delivery driver.
      */
-    public DeliveryDriver(){
-        super();
-    }
+    //public DeliveryDriver(){
+        //super();
+    //}
 
 
     /**

@@ -65,6 +65,7 @@ public abstract class Order implements Serializable {
         this.orderNumber = orderId;
         this.initialTime = initialTime;
         this.totalPrice = totalPrice;
+        this.costumer = costumer;
         this.registrationDate = "";
         this.status = "";
         this.orderedDishes = new ArrayList<Dish>();
@@ -73,13 +74,6 @@ public abstract class Order implements Serializable {
     /**
      * Instantiates a new Order.
      */
-    public Order() {
-        this.orderNumber = 0;
-        this.initialTime = "";
-        this.totalPrice = 0;
-        this.registrationDate = "";
-        this.status = "";
-    }
 
     /**
      * Calculate total price int.
