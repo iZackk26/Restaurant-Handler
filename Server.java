@@ -436,14 +436,16 @@ public class Server {
             ArrayList<Dish> dishes = new ArrayList<Dish>();
             for (Order order : history) {
                 for (Dish dish : order.getOrderedDishes()) {
-                    if (!dishes.contains(dish)) {
-                        dishes.add(dish);
-                    } else {
-                        for (Dish dish1 : dishes) {
-                            if (dish1.equals(dish)) {
-                                dish1.setTimesOrdered(dish1.getTimesOrdered() + 1);
-                            }
+                    boolean dishAlreadyAdded = false;
+                    for (Dish dish1 : dishes) {
+                        if (dish.getName().equals(dish1.getName())) {
+                            dish1.increaseTimesOrdered();
+                            dishAlreadyAdded = true;
+                            break; 
                         }
+                    }
+                    if (!dishAlreadyAdded) {
+                        dishes.add(dish);
                     }
                 }
             }
@@ -453,7 +455,7 @@ public class Server {
 
             System.out.println("Those are the dishes sold today: ");
             for (Dish dish : dishes) {
-                System.out.println(dish.getName() + " x" + dish.getTimesOrdered() + 1);
+                System.out.println(dish.getName() + " x" + dish.getTimesOrdered());
             }
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());

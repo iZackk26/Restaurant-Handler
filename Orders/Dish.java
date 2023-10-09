@@ -51,7 +51,7 @@ public class Dish implements Serializable {
         this.estimatedTime = estimatedTime;
         this.price = price;
         this.finished = finished;
-        this.timesOrdered = 0;
+        this.timesOrdered = 1;
     }
 
     /**
@@ -63,6 +63,7 @@ public class Dish implements Serializable {
         this.estimatedTime = "";
         this.price = 0;
         this.finished = false;
+        this.timesOrdered = 1;
     }
 
     /**
@@ -178,6 +179,10 @@ public class Dish implements Serializable {
      */
     public void setTimesOrdered(int timesOrdered) {
         this.timesOrdered = timesOrdered;
+    }
+
+    public void increaseTimesOrdered() {
+        this.timesOrdered++;
     }
 
     /**
